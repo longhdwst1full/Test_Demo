@@ -87,7 +87,27 @@ const login = async (req: Request, res: Response) => {
     }
 };
 
+const getall = async (req: Request, res: Response) => {
+    try {
+        
+        const user = await User.find( ) 
+        
+
+        return res.json({
+            status: 200,
+            message: "User logged in successfully!",
+            user,
+        });
+    } catch (error: any) {
+        return res.json({
+            status: 500,
+            message: error.message,
+        });
+    }
+};
+
 export default {
     register,
     login,
+    getall
 };
