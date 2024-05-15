@@ -1,60 +1,163 @@
+# Mô Hình Phần Mềm Quản Lý Kho
 
+## 1. Cấu Trúc Dữ Liệu Cơ Sở
 
-Quản lý kho hàng
+### a. Bảng **Products** (Sản phẩm)
+- `product_id`: int (Primary Key)
+- `name`: varchar
+- `description`: text
+- `price`: decimal
+- `unit`: varchar
+- `category_id`: int (Foreign Key)
+- `image_url`: varchar
+- `color`: varchar
+- `size`: varchar
 
-     1 Product
-      - id
-      - name
-      -idSuplier
-      - idUnit (đơn vị tính)
+### b. Bảng **Categories** (Danh mục)
+- `category_id`: int (Primary Key)
+- `name`: varchar
 
-    2 Unit (đơn vị tính)
-      - id 
-      - name
+### c. Bảng **Inventory** (Tồn kho)
+- `inventory_id`: int (Primary Key)
+- `product_id`: int (Foreign Key)
+- `quantity`: int
+- `warehouse_id`: int (Foreign Key)
 
-    3 Suplier (Nhà cung cấp)
-     - id 
-     - name
-     - phone
-     - email
-     - address
-     - MoreInformation
-     - ContractDate
+### d. Bảng **Purchase_Orders** (Đơn nhập kho)
+- `purchase_order_id`: int (Primary Key)
+- `supplier_id`: int (Foreign Key)
+- `order_date`: datetime
+- `status`: varchar (e.g., 'pending', 'approved', 'received')
 
-    4 Customer (khách)
-     - id 
-     - name
-     - address
-     - phone
-     - email
-     - MoreInformation
-     
+### e. Bảng **Purchase_Order_Details** (Chi tiết đơn nhập kho)
+- `purchase_order_detail_id`: int (Primary Key)
+- `purchase_order_id`: int (Foreign Key)
+- `product_id`: int (Foreign Key)
+- `quantity`: int
+- `price`: decimal
 
-    5 Input (phiếu nhập)
-     - id 
-     - dateOutput
+### f. Bảng **Sales_Orders** (Đơn xuất kho)
+- `sales_order_id`: int (Primary Key)
+- `customer_id`: int (Foreign Key)
+- `order_date`: datetime
+- `status`: varchar (e.g., 'pending', 'approved', 'shipped')
 
+### g. Bảng **Sales_Order_Details** (Chi tiết đơn xuất kho)
+- `sales_order_detail_id`: int (Primary Key)
+- `sales_order_id`: int (Foreign Key)
+- `product_id`: int (Foreign Key)
+- `quantity`: int
+- `price`: decimal
 
-    8 InputInfo(thông tin phiếu nhập)
-      - id
-      - idProduct
-      - IdInput
-      - count
-      - inputPrice
-      - outputPrice
-    - status
+### h. Bảng **Inventory_Transactions** (Giao dịch kho)
+- `transaction_id`: int (Primary Key)
+- `product_id`: int (Foreign Key)
+- `quantity`: int
+- `transaction_type`: varchar (e.g., 'import', 'export')
+- `transaction_date`: datetime
+- `order_id`: int (Foreign Key) - liên kết đến `Purchase_Orders` hoặc `Sales_Orders`
+- `remarks`: text
 
-    6 Output(phiếu xuất)
-     - id 
-     - dateOutput
+### i. Bảng **Suppliers** (Nhà cung cấp)
+- `supplier_id`: int (Primary Key)
+- `name`: varchar
+- `contact_info`: text
 
+### j. Bảng **Customers** (Khách hàng)
+- `customer_id`: int (Primary Key)
+- `name`: varchar
+- `contact_info`: text
 
-    7 OutputInfo (thông tin phiếu nhập)
-      - id
-      - idProduct
-      - IdInputInfo
-      - count
-    - idCustomer
-    - dateOutput
-      - status
-       
+### k. Bảng **Warehouses** (Kho)
+- `warehouse_id`: int (Primary Key)
+- `location`: varchar
+
+### l. Bảng **Users** (Người dùng)
+- `user_id`: int (Primary Key)
+- `username`: varchar
+- `password`: varchar
+- `role_id`: int (Foreign Key)
+
+### m. Bảng **Roles** (Vai trò)
+- `role_id`: int (Primary Key)
+- `role_name`: varchar
+- `permissions`: text
+
+## 2. Chức Năng Cụ Thể
+
+### a. Quản lý đơn nhập kho
+- **Tạo đơn nhập kho**: Form để chọn nhà cung cấp, thêm sản phẩm, số lượng và giá.
+- **Duyệt đơn nhập kho**: Xác nhận đơn nhập, cập nhật trạng thái từ 'pending' sang 'approved'.
+- **Nhập kho thực tế**: Khi hàng về, cập nhật trạng thái đơn nhập kho sang 'received', cập nhật số lượng tồn kho.
+
+### b. Quản lý đơn xuất kho
+- **Tạo đơn xuất kho**: Form để chọn khách hàng, thêm sản phẩm, số lượng và giá.
+- **Duyệt đơn xuất kho**: Xác nhận đơn xuất, cập nhật trạng thái từ 'pending' sang 'approved'.
+- **Xuất kho thực tế**: Khi hàng xuất đi, cập nhật trạng thái đơn xuất kho sang 'shipped', cập nhật số lượng tồn kho.
+
+### c. Quản lý giao dịch kho
+- **Ghi nhận giao dịch nhập/xuất kho**: Tự động ghi nhận mỗi khi có giao dịch nhập hoặc xuất kho.
+- **Theo dõi lịch sử giao dịch**: Xem danh sách giao dịch, chi tiết sản phẩm, số lượng và ngày giao dịch.
+
+### d. Quản lý vai trò người dùng
+- **Tạo và quản lý vai trò**: Quản trị viên có thể tạo mới, chỉnh sửa và xóa các vai trò.
+- **Phân quyền người dùng**: Gán vai trò cho người dùng, xác định quyền truy cập và thao tác.
+
+## 3. Giao Diện Người Dùng (UI)
+
+### a. Quản lý đơn nhập kho
+- **Form tạo đơn nhập kho**: Nhập thông tin nhà cung cấp, sản phẩm, số lượng, giá, màu, kích thước.
+- **Danh sách đơn nhập kho**: Hiển thị tất cả các đơn nhập kho với trạng thái.
+- **Chi tiết đơn nhập kho**: Hiển thị thông tin chi tiết của từng đơn nhập kho.
+- **Duyệt đơn nhập kho**: Tùy chọn duyệt hoặc từ chối đơn nhập kho.
+
+### b. Quản lý đơn xuất kho
+- **Form tạo đơn xuất kho**: Nhập thông tin khách hàng, sản phẩm, số lượng, giá, màu, kích thước.
+- **Danh sách đơn xuất kho**: Hiển thị tất cả các đơn xuất kho với trạng thái.
+- **Chi tiết đơn xuất kho**: Hiển thị thông tin chi tiết của từng đơn xuất kho.
+- **Duyệt đơn xuất kho**: Tùy chọn duyệt hoặc từ chối đơn xuất kho.
+
+### c. Quản lý giao dịch kho
+- **Danh sách giao dịch kho**: Hiển thị tất cả các giao dịch nhập/xuất kho.
+- **Chi tiết giao dịch kho**: Hiển thị thông tin chi tiết của từng giao dịch.
+
+### d. Quản lý vai trò người dùng
+- **Danh sách vai trò**: Hiển thị tất cả các vai trò và quyền hạn.
+- **Chi tiết vai trò**: Hiển thị thông tin chi tiết của từng vai trò.
+- **Phân quyền người dùng**: Gán vai trò cho người dùng, quản lý quyền truy cập.
+
+## 4. Quy Trình và Bảo Mật
+
+### a. Quy trình nhập kho
+1. Nhân viên tạo đơn nhập kho.
+2. Quản lý duyệt đơn nhập kho.
+3. Hàng về kho, nhân viên cập nhật trạng thái đơn nhập kho và số lượng tồn kho.
+
+### b. Quy trình xuất kho
+1. Nhân viên tạo đơn xuất kho.
+2. Quản lý duyệt đơn xuất kho.
+3. Hàng xuất kho, nhân viên cập nhật trạng thái đơn xuất kho và số lượng tồn kho.
+
+### c. Quy trình quản lý vai trò
+1. Quản trị viên tạo và quản lý các vai trò.
+2. Gán vai trò cho người dùng.
+3. Người dùng thực hiện các quyền hạn theo vai trò được phân.
+
+### d. Bảo mật
+- Phân quyền rõ ràng, chỉ có quản lý mới có quyền duyệt đơn nhập/xuất kho. Nhân viên chỉ có quyền tạo và xem đơn.
+- Quản trị viên có quyền quản lý vai trò và người dùng.
+
+## 5. Công Nghệ và Công Cụ
+- **Backend**: Node.js với Express hoặc Python với Django/Flask.
+- **Frontend**: React.js hoặc Angular.
+- **Database**: MySQL, PostgreSQL hoặc MongoDB.
+- **Authentication**: JWT (JSON Web Tokens) để bảo vệ các API.
+- **Hosting**: AWS, Heroku hoặc DigitalOcean để triển khai ứng dụng.
+
+## Ví Dụ Cụ Thể
+
+### a. Purchase Order Flow (Luồng đơn nhập kho)
+1. **Tạo đơn nhập kho**:
+   ```sql
+   INSERT INTO Purchase_Orders (supplier_id, order_date, status) VALUES (1, '2024-05-14', 'pending');
+   INSERT INTO Purchase_Order_Details (purchase_order_id, product_id, quantity, price) VALUES (1, 2, 100, 20.5);
