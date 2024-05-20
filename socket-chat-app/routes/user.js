@@ -1,9 +1,26 @@
-const express = require('express');
+import express from 'express';
+import {
+    register,
+    login,
+    validUser,
+    googleAuth,
+    logout,
+    searchUsers,
+    updateInfo,
+    getUserById,
+} from '../controllers/userController.js';
+import { Auth } from '../middleware/user.js';
+
+
+
 const router = express.Router();
-const userController = require('../controllers/userController');
+router.post('/auth/register', register);
+router.post('/auth/login', login);
+router.get('/auth/valid', Auth, validUser);
+router.get('/auth/logout', Auth, logout);
+router.post('/api/google', googleAuth);
+router.get('/api/user?', Auth, searchUsers);
+router.get('/api/users/:id', Auth, getUserById);
+router.patch('/api/users/update/:id', Auth, updateInfo);
 
-router.get('/search-friends', userController.searchFriends);
-router.post('/delete-friend', userController.deleteFriend);
-router.post('/update-profile', userController.updateProfile);
-
-module.exports = router;
+export default router;

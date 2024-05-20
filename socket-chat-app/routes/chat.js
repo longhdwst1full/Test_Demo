@@ -1,14 +1,22 @@
-const express = require('express');
+import express from 'express';
+import {
+    accessChats,
+    fetchAllChats,
+    creatGroup,
+    renameGroup,
+    addToGroup,
+    removeFromGroup,
+} from '../controllers/chatController.js';
+import { Auth } from '../middleware/user.js';
+
 const router = express.Router();
-const chatController = require('../controllers/chatController');
-const multer = require('multer');
 
-// Multer setup for file uploads
-const upload = multer({ dest: 'uploads/' });
+router.post('/', Auth, accessChats);
+router.get('/', Auth, fetchAllChats);
+router.post('/group', Auth, creatGroup);
+router.patch('/group/rename', Auth, renameGroup);
+router.patch('/groupAdd', Auth, addToGroup);
+router.patch('/groupRemove', Auth, removeFromGroup);
+router.delete('/removeuser', Auth);
 
-router.post('/send-file', upload.single('file'), chatController.sendFile);
-router.post('/send-image', upload.single('image'), chatController.sendImage);
-router.post('/delete-chat', chatController.deleteChat);
-router.get('/search-chat', chatController.searchChat);
-
-module.exports = router;
+export default router;
