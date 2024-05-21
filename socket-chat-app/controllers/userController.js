@@ -38,6 +38,7 @@ export const login = async (req, res) => {
         }
         else {
             const token = await valid.generateAuthToken();
+            console.log(token, valid,":::chekc - Password")
             await valid.save();
             res.cookie('userToken', token, {
                 httpOnly: true,
@@ -134,14 +135,14 @@ export const searchUsers = async (req, res) => {
         }
         : {};
 
-    const users = await user.find(search).find({ _id: { $ne: req.rootUserId } });
+    const users = await User.find(search).find({ _id: { $ne: req.rootUserId } });
     res.status(200).send(users);
 };
 
 export const getUserById = async (req, res) => {
     const { id } = req.params;
     try {
-        const selectedUser = await user.findOne({ _id: id }).select('-password');
+        const selectedUser = await User.findOne({ _id: id }).select('-password');
         res.status(200).json(selectedUser);
     } catch (error) {
         res.status(500).json({ error: error });
@@ -151,7 +152,7 @@ export const getUserById = async (req, res) => {
 export const updateInfo = async (req, res) => {
     const { id } = req.params;
     const { bio, name } = req.body;
-    const updatedUser = await user.findByIdAndUpdate(id, { name, bio });
+    const updatedUser = await User.findByIdAndUpdate(id, { name, bio });
     return updatedUser;
 };
 

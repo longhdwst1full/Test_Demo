@@ -1,7 +1,9 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
 
+dotenv.config()
 
 const userSchema = mongoose.Schema(
     {
@@ -43,11 +45,13 @@ userSchema.pre('save', async function (next) {
     }
     next();
 });
+
 userSchema.methods.generateAuthToken = async function () {
     try {
+        console.log(this._id, this.email)
         let token = jwt.sign(
             { id: this._id, email: this.email },
-            process.env.SECRET,
+           process.env.SECRET,
             {
                 expiresIn: '24h',
             }

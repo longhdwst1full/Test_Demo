@@ -2,14 +2,14 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 const API = (token) =>
     axios.create({
-        baseURL: process.env.REACT_APP_SERVER_URL,
+        baseURL: "http://localhost:8000/api/",
         headers: { Authorization: token },
     });
 export const acessCreate = async (body) => {
     try {
         const token = localStorage.getItem('userToken');
 
-        const { data } = await API(token).post('/api/chat', body);
+        const { data } = await API(token).post('/chat', body);
         console.log(data);
         return data;
     } catch (error) {
@@ -19,7 +19,7 @@ export const acessCreate = async (body) => {
 export const fetchAllChats = async () => {
     try {
         const token = localStorage.getItem('userToken');
-        const { data } = await API(token).get('/api/chat');
+        const { data } = await API(token).get('/chat');
         return data;
     } catch (error) {
         console.log('error in fetch all chats api');
@@ -28,7 +28,7 @@ export const fetchAllChats = async () => {
 export const createGroup = async (body) => {
     try {
         const token = localStorage.getItem('userToken');
-        const { data } = await API(token).post('/api/chat/group', body);
+        const { data } = await API(token).post('/chat/group', body);
         toast.success(`${data.chatName} Group Created`);
         return data;
     } catch (error) {
@@ -38,7 +38,7 @@ export const createGroup = async (body) => {
 export const addToGroup = async (body) => {
     try {
         const token = localStorage.getItem('userToken');
-        const { data } = await API(token).patch('/api/chat/groupAdd', body);
+        const { data } = await API(token).patch('/chat/groupAdd', body);
         return data;
     } catch (error) {
         console.log('error in addtogroup api');
@@ -47,7 +47,7 @@ export const addToGroup = async (body) => {
 export const renameGroup = async (body) => {
     try {
         const token = localStorage.getItem('userToken');
-        const { data } = await API(token).patch('/api/chat/group/rename', body);
+        const { data } = await API(token).patch('/chat/group/rename', body);
         return data;
     } catch (error) {
         console.log('error in rename group api');
@@ -56,7 +56,7 @@ export const renameGroup = async (body) => {
 export const removeUser = async (body) => {
     try {
         const token = localStorage.getItem('userToken');
-        const { data } = await API(token).patch('/api/chat/groupRemove', body);
+        const { data } = await API(token).patch('/chat/groupRemove', body);
         return data;
     } catch (error) {
         console.log('error in remove user api');

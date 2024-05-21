@@ -1,13 +1,13 @@
  import Login from './pages/Login';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Regsiter from './pages/Regsiter';
-import Home from './pages/Home';
 import Start from './components/Start';
+import Home from './pages/Home';
 
 
 const App = () => {
 	return (
-	 <div className="bg-[#F8F4EA]">
+	 <div className=" ">
       <Router>
         <Routes>
           <Route exact path="/login" element={<Login />} />

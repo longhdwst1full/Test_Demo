@@ -26,18 +26,23 @@ const chatsSlice = createSlice({
             state.notifications = payload;
         },
     },
-    extraReducers: {
-        [fetchChats.pending]: (state) => {
-            state.isLoading = true;
-        },
-        [fetchChats.fulfilled]: (state, { payload }) => {
-            state.chats = payload;
-            state.isLoading = false;
-        },
-        [fetchChats.rejected]: (state) => {
-            state.isLoading = false;
-        },
-    },
+    extraReducers: (builder) => {
+        builder
+            .addCase(fetchChats.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(fetchChats.fulfilled, (state, { payload }) => {
+                state.chats = payload;
+                state.isLoading = false;
+            })
+            .addCase(fetchChats.rejected, (state,) => {
+
+                state.isLoading = false;
+            })
+    }
+
+
+
 });
 export const { setActiveChat, setNotifications } = chatsSlice.actions;
 export default chatsSlice.reducer;

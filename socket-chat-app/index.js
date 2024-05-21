@@ -13,12 +13,12 @@ const corsConfig = {
     origin: "*",
     credentials: true,
 };
-const PORT = process.env.PORT || 8000
+const PORT = 8000
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors(corsConfig));
-app.use('/', userRoutes);
+app.use('/api', userRoutes);
 app.use('/api/chat', chatRoutes);
 app.use('/api/message', messageRoutes);
 

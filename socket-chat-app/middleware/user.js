@@ -1,6 +1,8 @@
 import jwt from 'jsonwebtoken';
 import user from '../models/userModel.js';
+import dotenv from "dotenv"
 
+dotenv.config()
 export const Auth = async (req, res, next) => {
     try {
         let token = req.headers.authorization.split(' ')[0]; //when using browser this line

@@ -21,17 +21,20 @@ const searchSlice = createSlice({
     name: 'search',
     initialState,
     reducers: {},
-    extraReducers: {
-        [searchUserThunk.pending]: (state) => {
-            state.isLoading = true;
-        },
-        [searchUserThunk.fulfilled]: (state, { payload }) => {
-            state.searchResults = payload;
-            state.isLoading = false;
-        },
-        [searchUserThunk.rejected]: (state) => {
-            state.isError = true;
-        },
+    extraReducers: (builder) => {
+        builder
+            .addCase(searchUserThunk.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(searchUserThunk.fulfilled, (state, { payload }) => {
+                state.searchResults = payload;
+                state.isLoading = false;
+            })
+            .addCase(searchUserThunk.rejected, (state,) => {
+                state.isError = true;
+            })
+
+
     },
 });
 export default searchSlice.reducer;

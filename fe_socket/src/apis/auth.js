@@ -2,10 +2,12 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 const API = (token) =>
     axios.create({
-        baseURL: process.env.REACT_APP_SERVER_URL,
+        baseURL: "http://localhost:8000/api/",
         headers: { Authorization: token },
     });
-let url = process.env.REACT_APP_SERVER_URL;
+
+let url = "http://localhost:8000/api/"
+
 export const loginUser = async (body) => {
     try {
         return await axios.post(`${url}/auth/login`, body);
@@ -15,7 +17,7 @@ export const loginUser = async (body) => {
 };
 export const googleAuth = async (body) => {
     try {
-        return await axios.post(`${url}/api/google`, body);
+        return await axios.post(`${url}/google`, body);
     } catch (error) {
         console.log(error);
     }
@@ -43,7 +45,7 @@ export const searchUsers = async (id) => {
     try {
         const token = localStorage.getItem('userToken');
 
-        return await API(token).get(`/api/user?search=${id}`);
+        return await API(token).get(`/user?search=${id}`);
     } catch (error) {
         console.log('error in search users api');
     }
@@ -52,7 +54,7 @@ export const updateUser = async (id, body) => {
     try {
         const token = localStorage.getItem('userToken');
 
-        const { data } = await API(token).patch(`/api/users/update/${id}`, body);
+        const { data } = await API(token).patch(`/users/update/${id}`, body);
         return data;
     } catch (error) {
         console.log('error in update user api');
