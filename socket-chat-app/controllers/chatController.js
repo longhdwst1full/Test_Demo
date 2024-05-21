@@ -3,6 +3,7 @@ import user from '../models/userModel.js'
 
 export const accessChats = async (req, res) => {
     const { userId } = req.body;
+    console.log(req.body, req)
     if (!userId) res.send({ message: "Provide User's Id" });
 
     let chatExists = await Chat.find({
@@ -59,6 +60,7 @@ export const fetchAllChats = async (req, res) => {
         console.log(error);
     }
 };
+
 export const creatGroup = async (req, res) => {
     const { chatName, users } = req.body;
     if (!chatName || !users) {
@@ -101,6 +103,7 @@ export const renameGroup = async (req, res) => {
         console.log(error);
     }
 };
+
 export const addToGroup = async (req, res) => {
     const { userId, chatId } = req.body;
     const existing = await Chat.findOne({ _id: chatId });
@@ -116,6 +119,7 @@ export const addToGroup = async (req, res) => {
         res.status(409).send('user already exists');
     }
 };
+
 export const removeFromGroup = async (req, res) => {
     const { userId, chatId } = req.body;
     const existing = await Chat.findOne({ _id: chatId });

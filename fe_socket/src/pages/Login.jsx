@@ -15,8 +15,6 @@ function Login() {
   const [showPass, setShowPass] = useState(false);
   const pageRoute = useNavigate();
 
-  
- 
   const handleOnChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -43,17 +41,15 @@ function Login() {
     }
   };
   useEffect(() => {
-   
     const isValid = async () => {
-      const data = await validUser()
+      const data = await validUser();
       if (data?.user) {
-        window.location.href = "/chats"
+        window.location.href = "/chats";
       }
+    };
+    isValid();
+  }, []);
 
-    }
-    isValid()
-  }, [])
-  
   return (
     <>
       <div className="bg-[#121418] w-[100vw] h-[100vh] flex justify-center items-center">

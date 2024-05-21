@@ -15,7 +15,9 @@ import Profile from "../components/Profile";
 import { searchUsers } from "../apis/auth";
 import { acessCreate } from "../apis/chat";
 import { fetchChats } from "../redux/chatsSlice";
+import   io   from "socket.io-client";
 
+const socket = io("http://localhost:8000");
 function Home() {
   const dispatch = useDispatch();
   const { showProfile, showNotifications } = useSelector(
@@ -32,7 +34,10 @@ function Home() {
   };
 
   const handleClick = async (e) => {
-    await acessCreate({ userId: e._id });
+    const token = localStorage.getItem("userToken");
+
+    socket.emit("create chat", { userId: e._id, token: token||"" });
+
     dispatch(fetchChats());
     setSearch("");
   };
@@ -50,7 +55,7 @@ function Home() {
   useEffect(() => {
     const isValid = async () => {
       const data = await validUser();
-	  console.log(data,"Active")
+      console.log(data, "Active");
       const user = {
         id: data?.user?._id,
         email: data?.user?.email,
@@ -61,7 +66,7 @@ function Home() {
       dispatch(setActiveUser(user));
     };
     isValid();
-  }, [dispatch, activeUser]);
+  }, []);
 
   return (
     <>

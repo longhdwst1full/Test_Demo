@@ -60,6 +60,7 @@ function Chat(props) {
         const data = await fetchMessages(activeChat._id);
         setMessages(data);
         socket.emit("join room", activeChat._id);
+        console.log("joined chat")
         setLoading(false);
       }
       return;
