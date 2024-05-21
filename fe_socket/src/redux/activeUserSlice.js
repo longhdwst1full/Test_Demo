@@ -24,9 +24,7 @@ const activeUserSlice = createSlice({
             state.bio = payload.bio;
         },
     },
-    extraReducers: builder => {
-        
-    }
+     
 });
 
 export const { setActiveUser, setUserNameAndBio } = activeUserSlice.actions;

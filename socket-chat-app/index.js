@@ -52,9 +52,9 @@ io.on("connection", (socket) => {
     socket.on("stop typing", (room) => socket.in(room).emit("stop typing"));
 
     socket.on("new message", (newMessageRecieve) => {
-        console.log(newMessageRecieve)
+        console.log(newMessageRecieve);
         var chat = newMessageRecieve.chatId;
-        console.log("new message received")
+        console.log("new message received");
         if (!chat.users) console.log("chats.users is not defined");
 
         chat.users.forEach((user) => {
@@ -63,10 +63,9 @@ io.on("connection", (socket) => {
         });
     });
 
-    socket.on("create chat", async (data) => {
-        console.log(data.token, data);
+    socket.on("create room chat", async (data) => {
         try {
-            await axios.post(
+            const { data: result } = await axios.post(
                 `${URI}chat/`,
                 { userId: data.userId },
                 {
@@ -75,13 +74,16 @@ io.on("connection", (socket) => {
                     },
                 }
             );
-            console.log("Create chat with user " + data.userId);
 
+            console.log(result, "result");
             // Gửi thông báo cho tất cả người dùng trong phòng
-            io.emit("user chat", `${data} joined the chat`);
-
+            io.in(result._id).emit("get room chat", `${data} joined the chat`);
         } catch (error) {
             console.log(error);
         }
     });
 });
+
+
+// io: Đây là đối tượng toàn cục của Socket.IO, thường được sử dụng để phát sóng (broadcast) tới tất cả các socket hoặc tới các phòng cụ thể.
+// socket: Đây là đối tượng đại diện cho kết nối socket hiện tại, thường được sử dụng để giao tiếp trực tiếp với socket đó.

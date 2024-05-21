@@ -3,7 +3,7 @@ import user from '../models/userModel.js'
 
 export const accessChats = async (req, res) => {
     const { userId } = req.body;
-    console.log(req.body, req)
+   
     if (!userId) res.send({ message: "Provide User's Id" });
 
     let chatExists = await Chat.find({
@@ -21,6 +21,7 @@ export const accessChats = async (req, res) => {
         select: 'name email profilePic',
     });
     
+    console.log(chatExists, "chatExists")
     if (chatExists.length > 0) {
         res.status(200).send(chatExists[0]);
     } else {

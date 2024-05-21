@@ -1,21 +1,20 @@
 import { useEffect, useState } from "react";
 import { BiNotification } from "react-icons/bi";
-import { IoIosArrowDown } from "react-icons/io";
-import { useDispatch, useSelector } from "react-redux";
-import NotificationBadge, { Effect } from "react-notification-badge";
-import { RiNotificationBadgeFill } from "react-icons/ri";
 import { BsSearch } from "react-icons/bs";
-import { setActiveUser } from "../redux/activeUserSlice";
-import Group from "../components/Group";
-import Search from "../components/group/Search";
-import Chat from "./Chat";
+import { IoIosArrowDown } from "react-icons/io";
+import { RiNotificationBadgeFill } from "react-icons/ri";
+import NotificationBadge, { Effect } from "react-notification-badge";
+import { useDispatch, useSelector } from "react-redux";
+import io from "socket.io-client";
+import { searchUsers, validUser } from "../apis/auth";
 import Contacts from "../components/Contact";
-import { setShowNotifications, setShowProfile } from "../redux/profileSlice";
+import Group from "../components/Group";
 import Profile from "../components/Profile";
-import { searchUsers } from "../apis/auth";
-import { acessCreate } from "../apis/chat";
-import { fetchChats } from "../redux/chatsSlice";
-import   io   from "socket.io-client";
+import Search from "../components/group/Search";
+import { setActiveUser } from "../redux/activeUserSlice";
+import { fetchChats, setNotifications } from "../redux/chatsSlice";
+import { setShowNotifications, setShowProfile } from "../redux/profileSlice";
+import Chat from "./Chat";
 
 const socket = io("http://localhost:8000");
 function Home() {
@@ -25,8 +24,7 @@ function Home() {
   );
   const { notifications } = useSelector((state) => state.chats);
   const { activeUser } = useSelector((state) => state);
-  const [searchResults, setSearchResults] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [searchResults, setSearchResults] = useState([]); 
   const [search, setSearch] = useState("");
 
   const handleSearch = async (e) => {
@@ -36,22 +34,24 @@ function Home() {
   const handleClick = async (e) => {
     const token = localStorage.getItem("userToken");
 
-    socket.emit("create chat", { userId: e._id, token: token||"" });
-
-    dispatch(fetchChats());
+    socket.emit("create room chat", { userId: e._id, token: token || "" });
+    socket.on("get room chat", async () => {
+      console.log("get room chat");
+    
+      dispatch(fetchChats());
+    });
     setSearch("");
   };
 
   useEffect(() => {
     const searchChange = async () => {
-      setIsLoading(true);
       const { data } = await searchUsers(search);
       setSearchResults(data);
-      setIsLoading(false);
     };
     searchChange();
   }, [search]);
 
+  // check user login  and exit in system
   useEffect(() => {
     const isValid = async () => {
       const data = await validUser();
@@ -196,7 +196,7 @@ function Home() {
                   >
                     <Search
                       searchResults={searchResults}
-                      isLoading={isLoading}
+                   
                       handleClick={handleClick}
                       search={search}
                     />

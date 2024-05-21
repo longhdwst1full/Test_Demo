@@ -51,6 +51,7 @@ function Chat(props) {
     socket.on("connected", () => {
       setSocketConnected(true);
     });
+    
   }, [messages, activeUser]);
 
   useEffect(() => {
@@ -84,6 +85,7 @@ function Chat(props) {
       dispatch(fetchChats());
     });
   });
+  
   useEffect(() => {
     const isValid = async () => {
       const data = await validUser();
