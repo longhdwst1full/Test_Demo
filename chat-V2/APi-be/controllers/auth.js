@@ -18,7 +18,7 @@ const signToken = (userId) => jwt.sign({ userId }, process.env.JWT_SECRET);
 
 //register
 exports.register = catchAsync(async (req, res, next) => {
-  const { firstName, lastName, email, password} = req.body;
+  const { firstName, lastName, email, password } = req.body;
 
   const filteredBody = filterObj(req.body, "firstName", "lastName", "email", "password");
 
@@ -65,8 +65,8 @@ exports.sendOTP = catchAsync(async (req, res, next) => {
   });
 
   user.otp = new_otp.toString();
-  await user.save({new: true, validateModifiedOnly: true});
-
+  await user.save({ new: true, validateModifiedOnly: true });
+  console.log(new_otp, "otp")
   //TODO send mail
   mailService.sendEmail({
     from: "ngocngoc140702@gmail.com",
@@ -237,24 +237,24 @@ exports.protect = catchAsync(async (req, res, next) => {
 
   else {
     res.status(400).json({
-        status: "error",
-        message: "Ban chua dang nhap, vui long dang nhap de co quyen truy cap",
-        
+      status: "error",
+      message: "Ban chua dang nhap, vui long dang nhap de co quyen truy cap",
+
     });
     return;
   }
 
   //2. verify token
   const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
-    console.log(decoded);
+  console.log(decoded);
   //3. ktr user ton tai
   const this_user = await User.findById(decoded.userId);
 
   if (!this_user) {
     res.status(401).json({
-        // status: "error",
-        message: "User khong ton tai",
-        
+      // status: "error",
+      message: "User khong ton tai",
+
     });
   }
 
@@ -263,7 +263,7 @@ exports.protect = catchAsync(async (req, res, next) => {
   //   res.status(401).json({
   //       status: "error",
   //       message: "User hien tai da cap nhat password! Vui long login lai",
-        
+
   //   });
   // }
 
@@ -288,7 +288,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   }
   //2. Random reset token
   const resetToken = user.createPasswordResetToken();
-  await user.save({validateBeforeSave: false});
+  await user.save({ validateBeforeSave: false });
 
   // 3) Send it to user's email
   try {

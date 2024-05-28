@@ -218,7 +218,8 @@ export function RegisterUser(formValues) {
 export function VerifyEmail(formValues) {
   return async (dispatch, getState) => {
     dispatch(slice.actions.updateIsLoading({ isLoading: true, error: false }));
-
+    window.location.href = "/auth/login";
+    
     await axios
       .post(
         "/auth/verify",
@@ -260,7 +261,7 @@ export function VerifyEmail(formValues) {
         
       }).finally(() => {
         if (!getState().auth.error) {
-          window.location.href = "/auth/login";
+         
         }
       });
   };

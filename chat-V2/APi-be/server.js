@@ -20,11 +20,12 @@ const GroupMessage = require("./models/GroupMessage");
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:3000",
-    methods: ["GET", "POST"],
+    origin: "*",
+    // methods: ["GET", "POST"],
   },
 });
-const DB = process.env.DBURI.replace("<PASSWORD>", process.env.DBPASSWORD);
+
+const DB = process.env.DBURI+"/chat-V2";
 const multer = require("multer");
 const aws = require("aws-sdk");
 const multerS3 = require("multer-s3");
