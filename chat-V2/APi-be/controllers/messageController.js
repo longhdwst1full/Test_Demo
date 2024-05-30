@@ -1,4 +1,4 @@
-// const OneToOneMessage = require('../models/OneToOneMessage');
+const OneToOneMessage = require('../models/oneToOneMessage');
 
 // Hàm điều khiển để xóa một tin nhắn
 exports.deleteMessage = async (req, res) => {
