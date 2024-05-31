@@ -1,14 +1,11 @@
-import mongoose    from "mongoose";
-
- 
- 
+import mongoose from "mongoose";
 
 const webInfoSchema = new mongoose.Schema(
-    {
-        name: String,
-        value: Object,
-    },
-    { timestamps: true }
+  {
+    name: String,
+    value: Object,
+  },
+  { timestamps: true }
 );
 
-export default mongoose.model('webinfo', webInfoSchema);
+export default mongoose.model("webinfo", webInfoSchema);

@@ -30,7 +30,7 @@ const set = async (key) => {
 
 const get = async (key) => {
     const data = await getClient(key);
-
+console.log(data)
     return JSON.parse(data);
 };
 

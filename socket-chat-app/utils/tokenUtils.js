@@ -6,7 +6,7 @@ dotenv.config();
 export const tokenUtils = {
   generateToken: async (data, tokenLife) => {
     if (!data) return null;
-    return await jw.sign(
+    return await jwt.sign(
       { ...data, createdAt: new Date() },
       process.env.JWT_KEY,
       {

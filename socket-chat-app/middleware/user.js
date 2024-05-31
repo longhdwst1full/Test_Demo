@@ -1,26 +1,44 @@
-import jwt from "jsonwebtoken";
-import user from "../models/userModel.js";
+
 import dotenv from "dotenv";
+import { tokenUtils } from "../utils/tokenUtils.js";
+import User from "../models/userModel.js";
 
 dotenv.config();
 export const Auth = async (req, res, next) => {
+  const source = req.headers['user-agent'];
   try {
-    let token = req.headers.authorization.split(" ")[0]; //when using browser this line
-    // let token = req.headers.authorization.split(' ')[1]; //when using postman this line
+    const token = req.header('Authorization').replace('Bearer ', '');
+    const data = await tokenUtils.verifyToken(token);
+    console.log(data, "data")
+    const user = await User
+      .findOne({
+        _id: data._id,
+        // isActived: true,
+        isDeleted: false,
+      })
+      console.log(user, "user")
+    const { timeRevokeToken } = user;
+    const { createdAt } = data;
 
-    const verifiedUser = jwt.verify(token, "SECRET");
+    if (
+      !user ||
+      !data.source ||
+      source !== data.source ||
+      !createdAt ||
+      new Date(createdAt) < new Date(timeRevokeToken)
+    ) {
+      console.log('source !== data.source: ', source !== data.source);
+      throw new Error();
+    }
 
-    const rootUser = await user
-      .findOne({ _id: verifiedUser.id })
-      .select("-password");
-
-    req.token = token;
-    req.rootUser = rootUser;
-    req.rootUserId = rootUser._id;
+    req._id = data._id;
 
     next();
   } catch (error) {
     console.log(error);
-    res.json({ error: "Invalid Token" });
+    res.status(401).send({
+      status: 401,
+      error: 'Not authorized to access this resource',
+    });
   }
 };

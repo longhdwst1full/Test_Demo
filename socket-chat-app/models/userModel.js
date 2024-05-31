@@ -82,46 +82,53 @@ const userSchema = mongoose.Schema(
 );
 userSchema.pre("save", async function (next) {
     if (this.isModified("password")) {
-        this.password = await bcrypt.hash(this.password, 12);
+        this.password = await bcrypt.hashSync(this.password, 12);
     }
     next();
 });
 
 userSchema.statics.findByCredentials = async (username, password) => {
+    console.log(username, password,"eeeeee");
     const user = await User.findOne({
         username,
-        isActived: true,
+        // isActived: true,
         isDeleted: false,
     });
-
-    if (!user) throw new NotFoundError('User');
+console.log(user,"EEEEEEEEE")
+    if (!user) throw new NotFoundError("User");
 
     const isPasswordMatch = await bcrypt.compare(password, user.password);
-    if (!isPasswordMatch) throw new MyError('Password invalid');
+    if (!isPasswordMatch) throw new MyError("Password invalid");
 
     return user;
 };
 
 userSchema.statics.exitsById = async (_id) => {
-    const user = User.findOne({ _id, isActived: true })
+    const user = User.findOne({
+        _id,
+        isActived: true
+    });
     if (user) return true;
     return false;
-
-}
+};
 
 userSchema.statics.checkByIds = async (ids, message = "User") => {
     for (const idEle of ids) {
         const user = await User.findOne({
             _id: idEle,
             isActived: true,
-            isDeleted: false
-        })
+            isDeleted: false,
+        });
         if (!user) throw new NotFoundError(message);
     }
-}
+};
 
 userSchema.statics.getById = async (id, message = "User") => {
-    const user = await User.findOne({ _id, isActived: true, isActived: true })
+    const user = await User.findOne({
+        _id,
+        isActived: true,
+        isActived: true
+    });
     if (!user) throw new NotFoundError(message);
 
     const {
@@ -148,8 +155,7 @@ userSchema.statics.getById = async (id, message = "User") => {
         isAdmin,
         phoneBooks,
     };
-}
-
+};
 
 userSchema.statics.existsByUsername = async (username) => {
     const user = await User.findOne({
@@ -160,7 +166,7 @@ userSchema.statics.existsByUsername = async (username) => {
     return false;
 };
 
-userSchema.statics.findByUsername = async (username, message = 'User') => {
+userSchema.statics.findByUsername = async (username, message = "User") => {
     const user = await User.findOne({
         username,
         isActived: true,
@@ -182,8 +188,11 @@ userSchema.statics.findByUsername = async (username, message = 'User') => {
     };
 };
 
-userSchema.statics.checkById = async (_id, message = 'User') => {
-    const user = await User.findOne({ _id, isActived: true });
+userSchema.statics.checkById = async (_id, message = "User") => {
+    const user = await User.findOne({
+        _id,
+        isActived: true
+    });
 
     if (!user) throw new NotFoundError(message);
 
@@ -191,22 +200,27 @@ userSchema.statics.checkById = async (_id, message = 'User') => {
 };
 
 userSchema.statics.getSummaryId = async (_id, message = "User") => {
-    const user = await User.findOne({ _id, isActived: true })
+    const user = await User.findOne({
+        _id,
+        isActived: true
+    });
     if (!user) throw new NotFoundError(message);
 
-    const { name, avatar, } = user
+    const { name, avatar } = user;
     return {
         _id,
         name,
         avatar,
-    }
-
-}
+    };
+};
 userSchema.methods.generateAuthToken = async function () {
     try {
         console.log(this._id, this.email);
         let token = jwt.sign(
-            { id: this._id, email: this.email },
+            {
+                id: this._id,
+                email: this.email
+            },
             process.env.SECRET,
             {
                 expiresIn: "24h",
