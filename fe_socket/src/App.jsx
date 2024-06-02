@@ -1,21 +1,68 @@
- import Login from './pages/Login';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Regsiter from './pages/Regsiter';
-import Start from './components/Start';
-import Home from './pages/Home';
+ 
+import AdminProtectedRoute from './components/AdminProtectedRoute';
+import JoinFromLink from './components/JoinFromLink';
+import NotFoundPage from './components/NotFoundPage';
+import ProtectedRoute from './components/ProtectedRoute';
+import Account from './features/Account';
+import Admin from './features/Admin';
+import CallVideo from './features/CallVideo';
+import Home from './features/Home';
+import ChatLayout from './layout/ChatLayout';
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { fetchInfoWebs } from './features/Home/homeSlice';
+import './scss/App.scss';
+import { fetchUserProfile } from './app/globalSlice';
 
+function App() {
+    const dispatch = useDispatch();
+    const [isFetch, setIsFetch] = useState(false);
 
-const App = () => {
-	return (
-	 <div className=" ">
-      <Router>
-        <Routes>
-          <Route exact path="/login" element={<Login />} />
-          <Route exact path="/register" element={<Regsiter />} />
-          <Route exact path="/chats" element={<Home />} />
-          <Route exact path="/" element={<Start />} />
-        </Routes>
-      </Router>
-    </div>
-	);
-};export default App;
+    useEffect(() => {
+        const fetchProfile = async () => {
+            const token = localStorage.getItem('token');
+
+            if (token) await dispatch(fetchUserProfile());
+
+            setIsFetch(true);
+        };
+
+        fetchProfile();
+    }, []);
+
+    useEffect(() => {
+        dispatch(fetchInfoWebs());
+    }, []);
+
+    if (!isFetch) return '';
+
+    return (
+        <BrowserRouter>
+            <div className="App">
+                <Routes>
+                    <Route exact path="/" component={Home} />
+                    <Route
+                        exact
+                        path="/jf-link/:conversationId"
+                        component={JoinFromLink}
+                    />
+
+                    <ProtectedRoute path="/chat" component={ChatLayout} />
+
+                    <AdminProtectedRoute path="/admin" component={Admin} />
+                    <ProtectedRoute
+                        path="/call-video/:conversationId"
+                        component={CallVideo}
+                    />
+
+                    <Route path="/account" component={Account} />
+
+                    <Route component={NotFoundPage} />
+                </Routes>
+            </div>
+        </BrowserRouter>
+    );
+}
+
+export default App;

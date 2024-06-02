@@ -2,8 +2,9 @@ const util = require('util');
 const redis = require('redis');
 // 6379
 const client = redis.createClient({
-    host: process.env.REDIS_HOST,
-    port: process.env.REDIS_PORT,
+  url: "redis://redis-17427.c1.asia-northeast1-1.gce.redns.redis-cloud.com:17427",
+
+  password: "ZT8Xcb00sDa8bNefY3lKfsA0IyIxHSsy",
 });
 
 client.on('connect', function () {

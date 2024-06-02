@@ -5,7 +5,7 @@ class AuthController {
   async login(req, res, next) {
     const { username, password } = req.body;
     const source = req.headers["user-agent"];
-    console.log(source)
+    console.log(source);
     try {
       const { token, refreshToken } = await AuthServices.login(
         username,
@@ -14,7 +14,7 @@ class AuthController {
       );
       res.json({ token, refreshToken });
     } catch (error) {
-      console.log(error, "::")
+      console.log(error, "::");
       next(error);
     }
   }

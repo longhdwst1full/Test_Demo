@@ -5,12 +5,15 @@ const conversationSchema = new mongoose.Schema(
   {
     name: String,
     avatar: String,
+    // id 
     leaderId: mongoose.Types.ObjectId,
+    // id người quản lý 
     managerIds: {
       type: [mongoose.Types.ObjectId],
       default: [],
     },
     lastMessageId: mongoose.Types.ObjectId,
+    // đính , gim tin nhắn 
     pinMessageIds: {
       type: [mongoose.Types.ObjectId],
       default: [],
