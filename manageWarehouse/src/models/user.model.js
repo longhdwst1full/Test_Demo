@@ -10,7 +10,7 @@ const customers = new mongoose.Schema(
     },
     role_id: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "role",
+      ref: "Role",
     },
     email: {
       type: String,
@@ -25,4 +25,4 @@ const customers = new mongoose.Schema(
   { timestamps: true, versionKey: false }
 );
 
-export default mongoose.model("user", customers);
+export default mongoose.model("User", customers);

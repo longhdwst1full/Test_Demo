@@ -5,6 +5,8 @@ const suplierSchema = new mongoose.Schema(
     nameSulier: {
       type: String,
     },
+    phone: String,
+    email: String,
     address: {
       type: String,
     },
@@ -15,4 +17,4 @@ const suplierSchema = new mongoose.Schema(
   { timestamps: true, versionKey: false }
 );
 
-export default mongoose.model("suplier", suplierSchema);
+export default mongoose.model("Suplier", suplierSchema);

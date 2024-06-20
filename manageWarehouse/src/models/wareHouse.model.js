@@ -12,8 +12,17 @@ const wareHouses = new mongoose.Schema(
     status: {
       type: String,
     },
+    items: [
+      {
+        product_id: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Product",
+        },
+        quantity: Number,
+      },
+    ],
   },
   { timestamps: true, versionKey: false }
 );
 
-export default mongoose.model("wareHouse", wareHouses);
+export default mongoose.model("WareHouse", wareHouses);

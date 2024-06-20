@@ -1,19 +1,27 @@
 // controllers/salesOrder.controller.js
 import SalesOrder from "../models/salesOrder.model.js";
+import WareHouse from "../models/wareHouse.model.js";
+
 
 /***
  * create a new sales order
  * body:
- * user_id, order_date, status
+ * user_id_buy,user_id_sell, status
+ * title,  products,totalOutput
  */
 export const create = async (req, res) => {
   try {
-    const { user_id, order_date, status } = req.body;
+    // check mặt hàng này có trong kho không
+    // check mặt hàng có số lượng trong kho > số mua (xuất)
+    // cập nhập lại số lượng sản phẩm trong kho
+    const { user_id_buy, title, user_id_sell, products } = req.body;
+    const isProductWareHouse = await WareHouse.find();
 
     const salesOrder = await SalesOrder.create({
-      user_id,
-      order_date,
-      status,
+      user_id_buy,
+      title,
+      user_id_sell,
+      products,
     });
 
     res.status(201).json(salesOrder);

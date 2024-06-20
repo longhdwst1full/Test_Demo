@@ -9,6 +9,7 @@ const productSchema = new mongoose.Schema(
     description: {
       type: String,
     },
+    // giá bán sp
     price: {
       type: Number,
     },
@@ -17,7 +18,11 @@ const productSchema = new mongoose.Schema(
     },
     category_id: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "category",
+      ref: "Category",
+    },
+    idSuplier: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Suplier",
     },
     image_url: {
       type: String,
@@ -32,4 +37,4 @@ const productSchema = new mongoose.Schema(
   { timestamps: true, versionKey: false }
 );
 
-export default mongoose.model("product", productSchema);
+export default mongoose.model("Product", productSchema);

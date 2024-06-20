@@ -1,16 +1,33 @@
 // models/salesOrder.model.js
 import mongoose from "mongoose";
 
+//đơn hàng xuất kho
 const salesOrderSchema = new mongoose.Schema(
   {
-    user_id: {
+    // tên hóa đơn
+    title: String,
+    // xuất cho ai
+    user_id_buy: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "user",
+      ref: "User",
     },
-    order_date: {
-      type: String,
-      default: new Date(),
+    user_id_sell: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
     },
+    products: [
+      {
+        product_id: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Product",
+        },
+        quantity: Number,
+        priceProduct: Number,
+        // đơn vị tính
+        unit: String,
+      },
+    ],
+    totalOutput: Number,
     status: {
       type: String,
     },

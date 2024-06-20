@@ -8,14 +8,14 @@ const inventorySchema = new mongoose.Schema(
     },
     product_id: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "product",
+      ref: "Product",
     },
     warehouse_id: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "wareHouse",
+      ref: "WareHouse",
     },
   },
   { timestamps: true, versionKey: false }
 );
 
-export default mongoose.model("inventory", inventorySchema);
+export default mongoose.model("Inventory", inventorySchema);

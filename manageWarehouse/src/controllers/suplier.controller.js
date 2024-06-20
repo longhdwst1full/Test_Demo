@@ -4,16 +4,20 @@ import Suplier from "../models/suplier.model.js";
  * body:  
  *    nameSulier,
       address
-      contact_info
+      contact_info,
+      phone.
+      email
   parameters : id
  */
 export const createSuplier = async (req, res) => {
   try {
-    const { nameSulier, address, contact_info } = req.body;
+    const { nameSulier, email, phone, address, contact_info } = req.body;
 
     const suplier = await Suplier.create({
       nameSulier,
       address,
+      email,
+      phone,
       contact_info,
     });
 
@@ -28,12 +32,14 @@ export const createSuplier = async (req, res) => {
 export const updateSuplier = async (req, res) => {
   try {
     const { id } = req.params;
-    const { nameSulier, address, contact_info } = req.body;
-    console.log(id, nameSulier, address, contact_info, ":ddata");
+    const { nameSulier, address, email, phone, contact_info } = req.body;
+    console.log(id, nameSulier, email, phone, address, contact_info, ":ddata");
     const suplier = await Suplier.findByIdAndUpdate(
       { _id: id },
       {
         nameSulier,
+        email,
+        phone,
         address,
         contact_info,
       }

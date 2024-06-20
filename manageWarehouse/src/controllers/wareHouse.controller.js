@@ -9,12 +9,11 @@ import WareHouse from "../models/wareHouse.model.js";
  */
 export const createWh = async (req, res) => {
   try {
-    const { location, nameWareHouse, status } = req.body;
+    const { location, nameWareHouse } = req.body;
 
     const wareHouse = await WareHouse.create({
       location,
       nameWareHouse,
-      status,
     });
 
     res.status(201).json(wareHouse);
@@ -68,7 +67,7 @@ export const deletWh = async (req, res) => {
 
 export const findAllWh = async (req, res) => {
   try {
-    const wareHouses = await WareHouse.find();
+    const wareHouses = await WareHouse.find().populate("items.product_id");
     res.status(200).json(wareHouses);
   } catch (err) {
     res.status(500).json({

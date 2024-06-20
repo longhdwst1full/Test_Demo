@@ -5,7 +5,7 @@ import express from "express";
 
 const productRouter = express.Router();
 
-productRouter.post("/products", create);
+productRouter.post("/product", create);
 productRouter.get("/products", findAll);
 
 export default productRouter;

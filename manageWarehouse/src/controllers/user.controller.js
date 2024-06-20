@@ -83,7 +83,7 @@ export const deleteuser = async (req, res) => {
 
 export const findAlluser = async (req, res) => {
   try {
-    const users = await User.find();
+    const users = await User.find().populate("role_id");
     res.status(200).json(users);
   } catch (err) {
     res.status(500).json({

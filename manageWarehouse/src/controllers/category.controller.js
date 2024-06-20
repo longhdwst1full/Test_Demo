@@ -8,10 +8,9 @@ import Category from "../models/category.model.js";
  */
 export const create = async (req, res) => {
   try {
-    const { status, nameCate } = req.body;
+    const { nameCate } = req.body;
 
     const product = await Category.create({
-      status,
       nameCate,
     });
 
