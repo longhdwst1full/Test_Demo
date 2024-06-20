@@ -20,6 +20,10 @@ const productSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Category",
     },
+    warehouse_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "WareHouse",
+    },
     idSuplier: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Suplier",
