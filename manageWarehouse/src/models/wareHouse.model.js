@@ -1,16 +1,19 @@
 // models/purchaseOrder.model.js
-export default (sequelize, Sequelize) => {
-  const wareHouses = sequelize.define("wareHouse", {
+import mongoose from "mongoose";
+
+const wareHouses = new mongoose.Schema(
+  {
     location: {
-      type: Sequelize.STRING,
+      type: String,
     },
-    name: {
-      type: Sequelize.STRING
+    nameWareHouse: {
+      type: String,
     },
     status: {
-      type: Sequelize.STRING
-    }
-  });
+      type: String,
+    },
+  },
+  { timestamps: true, versionKey: false }
+);
 
-  return wareHouses;
-};
+export default mongoose.model("wareHouse", wareHouses);

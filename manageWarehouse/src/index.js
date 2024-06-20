@@ -4,11 +4,9 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import dotenv from "dotenv";
 
-import productRoutes from "./routes/product.routes.js";
-import purchaseOrderRoutes from "./routes/purchaseOrder.routes.js";
-import salesOrderRoutes from "./routes/salesOrder.routes.js";
-import db from "./models/index.js";
-import roleRoutes from "./routes/role.routes.js";
+import routers from "./routes/index.js";
+
+import connectMongoose from "./config/db.config.js";
 
 dotenv.config();
 
@@ -23,19 +21,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Kết nối cơ sở dữ liệu
-db.sequelize.sync()
-  .then(() => {
-    console.log("Synced db.");
-  })
-  .catch(err => {
-    console.log("Failed to sync db: " + err.message);
-  });
+connectMongoose();
 
 // Định tuyến
-productRoutes(app);
-purchaseOrderRoutes(app);
-salesOrderRoutes(app);
-roleRoutes(app);
+app.use("/api/v1/", routers);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

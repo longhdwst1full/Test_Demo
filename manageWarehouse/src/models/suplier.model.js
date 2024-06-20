@@ -1,16 +1,18 @@
-export default (sequelize, Sequelize) => {
-  const Suplier = sequelize.define("suplier", {
-   
-    name: {
-      type: Sequelize.STRING
+import mongoose from "mongoose";
+
+const suplierSchema = new mongoose.Schema(
+  {
+    nameSulier: {
+      type: String,
     },
     address: {
-      type: Sequelize.STRING
+      type: String,
     },
     contact_info: {
-      type: Sequelize.STRING
-    }
-  });
+      type: String,
+    },
+  },
+  { timestamps: true, versionKey: false }
+);
 
-  return Suplier;
-};
+export default mongoose.model("suplier", suplierSchema);

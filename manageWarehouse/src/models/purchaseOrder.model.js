@@ -1,16 +1,22 @@
 // models/purchaseOrder.model.js
-export default (sequelize, Sequelize) => {
-  const PurchaseOrder = sequelize.define("order", {
+import mongoose from "mongoose";
+
+const PurchaseOrder = new mongoose.Schema(
+  "",
+  {
     supplier_id: {
-      type: Sequelize.INTEGER
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "category",
     },
     order_date: {
-      type: Sequelize.DATE
+      type: String,
+      default: new Date(),
     },
     status: {
-      type: Sequelize.STRING
-    }
-  });
+      type: String,
+    },
+  },
+  { timestamps: true, versionKey: false }
+);
 
-  return PurchaseOrder;
-};
+export default mongoose.model("order", PurchaseOrder);

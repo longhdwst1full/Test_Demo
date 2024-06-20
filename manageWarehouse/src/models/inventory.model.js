@@ -1,18 +1,21 @@
 // models/Inventory.model.js
-export default (sequelize, Sequelize) => {
-  const Inventory = sequelize.define("inventory", {
+import mongoose from "mongoose";
 
+const inventorySchema = new mongoose.Schema(
+  {
     quantity: {
-      type: Sequelize.INTEGER
+      type: Number,
     },
     product_id: {
-      type: Sequelize.INTEGER
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "product",
     },
     warehouse_id: {
-      type: Sequelize.INTEGER
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "wareHouse",
     },
+  },
+  { timestamps: true, versionKey: false }
+);
 
-  });
-
-  return Inventory;
-};
+export default mongoose.model("inventory", inventorySchema);

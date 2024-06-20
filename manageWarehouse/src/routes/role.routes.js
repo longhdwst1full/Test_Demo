@@ -1,9 +1,16 @@
-import { create, deletRole, findAll, updateRole } from "../controllers/role.controller.js";
+import {
+  create,
+  deletRole,
+  findAll,
+  updateRole,
+} from "../controllers/role.controller.js";
+import express from "express";
 
+const roleRouter = express.Router();
 
-export default app => {
-  app.post("/role", create);
-  app.get("/roles", findAll);
-  app.put("/role/:id", updateRole);
-  app.delete("/role/:id", deletRole);
-};
+roleRouter.post("/role", create);
+roleRouter.get("/roles", findAll);
+roleRouter.put("/role/:id", updateRole);
+roleRouter.delete("/role/:id", deletRole);
+
+export default roleRouter;

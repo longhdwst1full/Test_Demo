@@ -1,17 +1,16 @@
 import dotenv from "dotenv";
+import mongoose from "mongoose";
 
 dotenv.config();
 // config/db.config.js
-export default {
-  HOST: process.env.DB_HOST,
-  USER: process.env.DB_USER,
-  PASSWORD: process.env.DB_PASSWORD,
-  DB: process.env.DB_NAME,
-  dialect: process.env.DB_DIALECT,
-  pool: {
-    max: 5,
-    min: 0,
-    acquire: 30000,
-    idle: 10000,
-  },
-};
+
+const connectMongoose = () =>
+  mongoose
+    .connect(process.env.API_DB)
+    .then(() => {
+      console.log("Database connected");
+    })
+    .catch(() => {
+      console.log("Database connect failed");
+    });
+export default connectMongoose

@@ -1,16 +1,21 @@
 // models/salesOrder.model.js
-export default (sequelize, Sequelize) => {
-  const SalesOrder = sequelize.define("salesOrder", {
-    customer_id: {
-      type: Sequelize.INTEGER
+import mongoose from "mongoose";
+
+const salesOrderSchema = new mongoose.Schema(
+  {
+    user_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "user",
     },
     order_date: {
-      type: Sequelize.DATE
+      type: String,
+      default: new Date(),
     },
     status: {
-      type: Sequelize.STRING
-    }
-  });
+      type: String,
+    },
+  },
+  { timestamps: true, versionKey: false }
+);
 
-  return SalesOrder;
-};
+export default mongoose.model("salesOrder", salesOrderSchema);

@@ -1,6 +1,5 @@
 // controllers/purchaseOrder.controller.js
-import db from "../models/index.js";
-const PurchaseOrder = db.purchaseOrders;
+import PurchaseOrder from "../models/purchaseOrder.model.js";
 
 export const create = async (req, res) => {
   try {
@@ -9,20 +8,26 @@ export const create = async (req, res) => {
     const purchaseOrder = await PurchaseOrder.create({
       supplier_id,
       order_date,
-      status
+      status,
     });
 
     res.status(201).json(purchaseOrder);
   } catch (err) {
-    res.status(500).json({ message: err.message || "Some error occurred while creating the Purchase Order." });
+    res.status(500).json({
+      message:
+        err.message || "Some error occurred while creating the Purchase Order.",
+    });
   }
 };
 
 export const findAll = async (req, res) => {
   try {
-    const purchaseOrders = await PurchaseOrder.findAll();
+    const purchaseOrders = await PurchaseOrder.find();
     res.status(200).json(purchaseOrders);
   } catch (err) {
-    res.status(500).json({ message: err.message || "Some error occurred while retrieving purchase orders." });
+    res.status(500).json({
+      message:
+        err.message || "Some error occurred while retrieving purchase orders.",
+    });
   }
 };

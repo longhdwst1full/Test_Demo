@@ -1,7 +1,11 @@
 // controllers/product.controller.js
-import db from "../models/index.js";
-const Product = db.products;
+ import Product from "../models/product.model.js"
 
+ /***
+  * body: 
+  *  name, description, price, unit, category_id, image_url, color, size
+  * parameters : id 
+  */
 export const create = async (req, res) => {
   try {
     const { name, description, price, unit, category_id, image_url, color, size } = req.body;
@@ -25,7 +29,7 @@ export const create = async (req, res) => {
 
 export const findAll = async (req, res) => {
   try {
-    const products = await Product.findAll();
+    const products = await Product.find();
     res.status(200).json(products);
   } catch (err) {
     res.status(500).json({ message: err.message || "Some error occurred while retrieving products." });

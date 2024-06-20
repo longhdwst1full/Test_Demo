@@ -1,31 +1,35 @@
 // models/product.model.js
-export default (sequelize, Sequelize) => {
-  const Product = sequelize.define("product", {
+import mongoose from "mongoose";
+
+const productSchema = new mongoose.Schema(
+  {
     name: {
-      type: Sequelize.STRING
+      type: String,
     },
     description: {
-      type: Sequelize.TEXT
+      type: String,
     },
     price: {
-      type: Sequelize.DECIMAL(10, 2)
+      type: Number,
     },
     unit: {
-      type: Sequelize.STRING
+      type: String,
     },
     category_id: {
-      type: Sequelize.INTEGER
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "category",
     },
     image_url: {
-      type: Sequelize.STRING
+      type: String,
     },
     color: {
-      type: Sequelize.STRING
+      type: String,
     },
     size: {
-      type: Sequelize.STRING
-    }
-  });
+      type: String,
+    },
+  },
+  { timestamps: true, versionKey: false }
+);
 
-  return Product;
-};
+export default mongoose.model("product", productSchema);

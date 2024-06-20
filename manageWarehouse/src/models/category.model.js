@@ -1,14 +1,17 @@
 // models/product.model.js
-export default (sequelize, Sequelize) => {
-  const Category = sequelize.define("category", {
-    name: {
-      type: Sequelize.STRING
-    },
-     
-    status: {
-      type: Sequelize.STRING
-    }
-  });
+import mongoose from "mongoose";
 
-  return Category;
-};
+const categorySchema = new mongoose.Schema(
+  {
+    nameCate: {
+      type: String,
+    },
+
+    status: {
+      type: String,
+    },
+  },
+  { timestamps: true, versionKey: false }
+);
+
+export default mongoose.model("category", categorySchema);

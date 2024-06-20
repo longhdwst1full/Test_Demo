@@ -1,7 +1,11 @@
 // routes/product.routes.js
 import { create, findAll } from "../controllers/product.controller.js";
 
-export default app => {
-  app.post("/products", create);
-  app.get("/products", findAll);
-};
+import express from "express";
+
+const productRouter = express.Router();
+
+productRouter.post("/products", create);
+productRouter.get("/products", findAll);
+
+export default productRouter;

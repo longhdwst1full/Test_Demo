@@ -1,13 +1,15 @@
-export default (sequelize, Sequelize) => {
-  const roles = sequelize.define("role", {
+import mongoose from "mongoose";
+
+const productSchema = new mongoose.Schema(
+  {
     role_name: {
-      type: Sequelize.STRING
+      type: String,
     },
     permissions: {
-      type: Sequelize.STRING
+      type: String,
     },
+  },
+  { timestamps: true, versionKey: false }
+);
 
-  });
-
-  return roles;
-};
+export default mongoose.model("role", productSchema);

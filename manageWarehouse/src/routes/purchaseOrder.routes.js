@@ -1,7 +1,12 @@
 // routes/purchaseOrder.routes.js
 import { create, findAll } from "../controllers/purchaseOrder.controller.js";
 
-export default app => {
-  app.post("/purchase-orders", create);
-  app.get("/purchase-orders", findAll);
-};
+import express from "express";
+
+const purchaseOrderRouter = express.Router(); 
+
+  purchaseOrderRouter.post("/purchase-orders", create);
+  purchaseOrderRouter.get("/purchase-orders", findAll);
+ 
+
+  export default purchaseOrderRouter
