@@ -48,12 +48,12 @@ export default function Page() {
   ];
   const [tabClick, setTabClick] = useState(0);
   return (
-    <div>
+    <div className="bg-[#f0f1f6]">
       <div
         className="bg-header-image"
-        style={{
-          backgroundImage: "url('../bg.png')",
-        }}
+        // style={{
+        //   backgroundImage: "url('../bg.png') no-repeat",
+        // }}
       >
         <Header />
         <div className="container m-auto pt-28">
@@ -94,7 +94,8 @@ export default function Page() {
       </div>
 
       {/* body*/}
-      <div className="container m-auto">
+
+      <div className="container m-auto ">
         <div className="mt-4 flex items-center">
           <span className="hot-live flex items-center h-12 mr-4">
             <img className="object-cover h-full" src="./hot-live.webp" alt="" />
@@ -117,12 +118,14 @@ export default function Page() {
             .fill(0)
             .map((_, i) => {
               return (
-                <Link key={i} href="" className="relative hover-iconPlay">
+                <Link key={i} href="" className="relative hover-iconPlay rounded-t-lg">
                   <div className="mask" />
-                  <img
-                    className="object-cover w-full"
-                    src="https://png.pngtree.com/element_our/png_detail/20181108/little-boy-sit-studying-png_232197.jpg"
-                  />
+                  <div className="w-full overflow-hidden">
+                    <img
+                      className="object-cover w-full h-full"
+                      src="https://png.pngtree.com/element_our/png_detail/20181108/little-boy-sit-studying-png_232197.jpg"
+                    />
+                  </div>
                   <div className="live-mask" />
                   <i className="btn-open" />
                   <div className="absolute top-2.5 scale-[1] right-0 mr-3">
@@ -131,19 +134,20 @@ export default function Page() {
                       <span className="text-white">Live</span>
                     </div>
                   </div>
-                  <div className="absolute bottom-12 z-10 font-normal w-full text-white tracking-wide bg-custom-gradient flex justify-between px-2  items-center">
+                  <div className="absolute bottom-10 z-10 font-normal w-full text-white tracking-wide bg-custom-gradient flex justify-between px-2 items-center pb-2">
                     <span className="">BLV DUSTIN</span>
                     <p className="flex">
                       <img className="w-4 mr-0.5 object-cover" src="./icon-hot-white.webp" />
                       <span className="">26.94k</span>
                     </p>
                   </div>
-                  <h4 className="bg-white h-10 font-normal px-3.5  rounded-b-lg text-black">NZBL: Nelson Giants vs Otago Nuggets</h4>
+                  <h4 className="bg-white h-10 font-normal px-3.5 py-1  rounded-b-lg text-black">NZBL: Nelson Giants vs Otago Nuggets</h4>
                 </Link>
               );
             })}
         </div>
       </div>
+
       <Footer />
     </div>
   );

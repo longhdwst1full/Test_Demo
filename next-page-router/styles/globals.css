@@ -3,7 +3,20 @@
 @tailwind utilities;
 
 .bg-header-image {
-  /* background-image: url("../bg-banner.webp"); */
+  background: url("../public/bg.png")  no-repeat;
+  width: 100%;
+  background-size: cover;
+}
+ 
+.header { 
+  background: transparent;
+  transition: all 0.3s ease;
+  z-index: 1000;
+}
+
+.header.scrolled {
+ background-color: rgba(0,0,0,.4);
+  color: white;
 }
 
 .left-arrow {
