@@ -112,7 +112,7 @@ export default function Page() {
         </div>
 
         {/*  */}
-        <div className="mt-5 grid grid-cols-4 grid-rows-3 gap-5">
+        <div className="mt-5 grid xl:grid-cols-4 lg:grid-cols-3 grid-cols-2 gap-5">
           {Array(10)
             .fill(0)
             .map((_, i) => {

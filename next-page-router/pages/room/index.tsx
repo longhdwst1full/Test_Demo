@@ -14,7 +14,6 @@ export default function Room() {
         }}
       >
         <Header />
-
         <div className="container m-auto pt-28">
           <div className="h-6 bg-[#10223d] rounded-md  text-white">
             <Marquee>Link đang chạy</Marquee>
