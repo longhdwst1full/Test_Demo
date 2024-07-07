@@ -30,7 +30,36 @@ export default function Room() {
               />
             </div>
             <div className="col-span-3 ml-1">
-              <div className="grid grid-cols-1 grid-rows-4 gap-2 mx-1 my-1.5 rounded "></div>
+              <div className="grid grid-cols-1 grid-rows-4 gap-2 mx-1 my-1.5 rounded bg-white">
+
+                {/* <div className='flex justify-start gap-x-1 p-3  '> */}
+
+                <p className='p-3.5'>
+
+                  <img className="w-4 h-4 object-cover" src="https://sta.vnres.co/web/assets/soco/img/icon-announcement@2x.png" alt="" />
+                  <span className='font-medium'>
+                    Thông báo:
+                  </span>
+                  Đến với live của Thạch Tú là ae sẽ bú nhé
+                </p>
+                {/* </div> */}
+
+                {/* tab */}
+                <div className="tab">
+                  <div className="tab-item tab-active" data-id="0">
+                    <span i18n-text="聊天室">Phòng trò chuyện</span>
+                  </div>
+                  <div className="tab-item" data-id="1">
+                    <span i18n-text="排行榜">Bảng xếp hạng</span>
+                  </div>
+                </div>
+                {/*  */}
+
+                <div className="chat-center h-[264.156px]"><div className="chat-panel" id="talkScroll">
+                  
+              </div>
+              </div>
+              </div>
             </div>
           </div>
         </div>

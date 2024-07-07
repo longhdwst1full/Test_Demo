@@ -62,12 +62,30 @@ export default function Header() {
                 <li
                   className={`list-none mx-1 rounded cursor-pointer px-1 py-2 text-[18px] ${
                     selected == i ? 'bg-[#f8c21b]' : ''
-                  }  hover:bg-[#f8c21b] ${navHeader.length - 1 == i ? 'text-[#f8c21b] hover:!bg-inherit' : ''} `}
+                  }  hover:bg-[#f8c21b] ${navHeader.length - 1 == i ? 'text-[#f8c21b] hover:!bg-inherit flex item-center relative' : ''} `}
                   key={item.title}
-                >
+                  >
                   <Link onClick={() => setSelected(i)} href={item.link} className="block">
                     {item.title}
                   </Link>
+                  {
+                    navHeader.length - 1 == i && (<div className='ml-0.5'>
+                      <img src='./hot.webp'/>
+                      </div>
+                    )
+                  }
+ 
+                     <div className={`hidden absolute left-1/2 top-10 transform -translate-x-1/2
+   rounded-md text-[#777] cursor-pointer z-10
+   text-center download-submenu  ${navHeader.length - 1 == i&& "hover:block"}`}>
+                      <div className="p-7 bg-white rounded-md
+    box-shadow: 0 4px 15px 0 rgba(0, 0, 0, .2);">
+                        <img className='object-cover w-full' src="//sta.vnres.co/web/assets/soco/img/code.png?v=20220124"/>
+                      </div></div>
+                    
+                  
+
+                  
                 </li>
               ))}
             </div>

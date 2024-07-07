@@ -77,3 +77,57 @@
   opacity: 1;
   transform: scale(1);
 }
+
+ li.download-menu .download-submenu {
+  position: absolute;
+  left: 50%;
+  top: 36px;
+  transform: translateX(-50%);
+  border-radius: 4px;
+  color: #777;
+  cursor: default;
+  z-index: 100;
+  text-align: center;
+}
+
+
+.tab{
+
+  height: 38px;
+    line-height: 38px;
+    background: #fff;
+    border-top: 1px solid #e9e9e9;
+    border-bottom: 1px solid #e9e9e9;
+}
+
+
+.tab .tab-item {
+  float: left;
+  width: 50%;
+  text-align: center;
+  font-size: 14px;
+  height: 100%;
+  display: block;
+  position: relative;
+  color: #777;
+  cursor: pointer;
+}
+
+.tab .tab-item {
+  float: left;
+  width: 50%;
+  text-align: center;
+  font-size: 14px;
+  height: 100%;
+  display: block;
+  position: relative;
+  color: #777;
+  cursor: pointer;
+}
+ .tab .tab-item.tab-active span {
+  color: #000;
+  font-size: 15px;
+  font-weight: 600;
+  border-bottom: 3px solid #ffb600;
+  padding-bottom: 3px;
+}
