@@ -100,7 +100,7 @@ export default function Page() {
           <span className="hot-live flex items-center h-12 mr-4">
             <img className="object-cover h-full" src="./hot-live.webp" alt="" />
           </span>
-          <ul className="flex gap-x-1">
+          {/* <ul className="flex gap-x-1">
             {menuBody.map((item, i) => {
               return (
                 <li key={i} className={`relative cursor-pointer ${tabClick == i && 'text-xl font-semibold'} px-2 py-0.5 ml-6`}>
@@ -109,7 +109,7 @@ export default function Page() {
                 </li>
               );
             })}
-          </ul>
+          </ul> */}
         </div>
 
         {/*  */}

@@ -27,17 +27,15 @@ export default function Footer() {
     <footer className="  bg-black mt-10">
       <div className="container m-auto inner clearfix">
         <div className="py-4 mb-2 flex justify-center items-center">
-          <img className="h-10 mr-10" src="./logo.webp" />
-          <div className="grid grid-cols-8 gap-2">
-            <Link href=" " target="_blank">
+          <img className="h-11 mr-11" src="./logo.webp" />
+          <div className="flex gap-x-4">
+            <Link href=" " className="w-8 h-8">
               <svg
-                className="logo-footer-icon"
+                className="logo-footer-icon  "
                 xmlns="http://www.w3.org/2000/svg"
                 xmlnsXlink="http://www.w3.org/1999/xlink"
                 aria-hidden="true"
                 role="img"
-                width="1em"
-                height="1em"
                 preserveAspectRatio="xMidYMid meet"
                 viewBox="0 0 24 24"
               >
@@ -49,15 +47,13 @@ export default function Footer() {
                 />
               </svg>
             </Link>
-            <a href=" ">
+            <Link href=" " className="w-8 h-8">
               <svg
                 className="logo-footer-icon"
                 xmlns="http://www.w3.org/2000/svg"
                 xmlnsXlink="http://www.w3.org/1999/xlink"
                 aria-hidden="true"
                 role="img"
-                width="1.13em"
-                height="1em"
                 preserveAspectRatio="xMidYMid meet"
                 viewBox="0 0 576 512"
               >
@@ -66,16 +62,14 @@ export default function Footer() {
                   d="M549.655 124.083c-6.281-23.65-24.787-42.276-48.284-48.597C458.781 64 288 64 288 64S117.22 64 74.629 75.486c-23.497 6.322-42.003 24.947-48.284 48.597c-11.412 42.867-11.412 132.305-11.412 132.305s0 89.438 11.412 132.305c6.281 23.65 24.787 41.5 48.284 47.821C117.22 448 288 448 288 448s170.78 0 213.371-11.486c23.497-6.321 42.003-24.171 48.284-47.821c11.412-42.867 11.412-132.305 11.412-132.305s0-89.438-11.412-132.305zm-317.51 213.508V175.185l142.739 81.205l-142.739 81.201z"
                 />
               </svg>
-            </a>
-            <a href=" ">
+            </Link>
+            <Link href=" " className="w-8 h-8">
               <svg
                 className="logo-footer-icon"
                 xmlns="http://www.w3.org/2000/svg"
                 xmlnsXlink="http://www.w3.org/1999/xlink"
                 aria-hidden="true"
                 role="img"
-                width="1em"
-                height="1em"
                 preserveAspectRatio="xMidYMid meet"
                 viewBox="0 0 1024 1024"
               >
@@ -83,17 +77,15 @@ export default function Footer() {
                   fill="#545454"
                   d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448s448-200.6 448-448S759.4 64 512 64zm215.3 337.7c.3 4.7.3 9.6.3 14.4c0 146.8-111.8 315.9-316.1 315.9c-63 0-121.4-18.3-170.6-49.8c9 1 17.6 1.4 26.8 1.4c52 0 99.8-17.6 137.9-47.4c-48.8-1-89.8-33-103.8-77c17.1 2.5 32.5 2.5 50.1-2a111 111 0 0 1-88.9-109v-1.4c14.7 8.3 32 13.4 50.1 14.1a111.13 111.13 0 0 1-49.5-92.4c0-20.7 5.4-39.6 15.1-56a315.28 315.28 0 0 0 229 116.1C492 353.1 548.4 292 616.2 292c32 0 60.8 13.4 81.1 35c25.1-4.7 49.1-14.1 70.5-26.7c-8.3 25.7-25.7 47.4-48.8 61.1c22.4-2.4 44-8.6 64-17.3c-15.1 22.2-34 41.9-55.7 57.6z"
                 />
-              </svg>{' '}
-            </a>
-            <a href="  " target="_blank">
+              </svg>
+            </Link>
+            <Link href="  " className="w-8 h-8">
               <svg
                 className="logo-footer-icon"
                 xmlns="http://www.w3.org/2000/svg"
                 xmlnsXlink="http://www.w3.org/1999/xlink"
                 aria-hidden="true"
                 role="img"
-                width="1em"
-                height="1em"
                 preserveAspectRatio="xMidYMid meet"
                 viewBox="0 0 24 24"
               >
@@ -104,16 +96,14 @@ export default function Footer() {
                   clipRule="evenodd"
                 />
               </svg>
-            </a>
-            <a href="https://www.gapo.vn/page/1788666161522353880" target="_blank">
+            </Link>
+            <Link href="" className="w-8 h-8">
               <svg
                 className="logo-footer-icon"
                 xmlns="http://www.w3.org/2000/svg"
                 xmlnsXlink="http://www.w3.org/1999/xlink"
                 aria-hidden="true"
                 role="img"
-                width="1em"
-                height="1em"
                 preserveAspectRatio="xMidYMid meet"
                 viewBox="0 0 64 64"
               >
@@ -122,16 +112,14 @@ export default function Footer() {
                   d="M32 2C15.432 2 2 15.432 2 32s13.432 30 30 30s30-13.432 30-30S48.568 2 32 2m13.484 44.508h-4.017l-.609-3.622c-1.168 1.372-2.219 2.339-3.15 2.9c-1.601.979-3.569 1.47-5.905 1.47c-3.845 0-6.995-1.332-9.448-3.993c-2.56-2.676-3.839-6.335-3.839-10.978c0-4.695 1.292-8.459 3.878-11.292c2.585-2.833 6.004-4.249 10.256-4.249c3.688 0 6.65.935 8.888 2.805s3.521 4.203 3.849 6.998h-5.965c-.459-1.981-1.582-3.366-3.365-4.153c-.998-.434-2.107-.649-3.328-.649c-2.336 0-4.255.881-5.758 2.643c-1.502 1.762-2.254 4.41-2.254 7.946c0 3.563.814 6.085 2.441 7.565c1.627 1.479 3.478 2.22 5.551 2.22c2.035 0 3.701-.584 5-1.751c1.3-1.167 2.1-2.696 2.402-4.588h-6.713v-4.843h12.087v15.571z"
                 />
               </svg>
-            </a>
-            <a href=" " target="_blank">
+            </Link>
+            <Link href=" " className="w-8 h-8">
               <svg
                 className="logo-footer-icon"
                 xmlns="http://www.w3.org/2000/svg"
                 xmlnsXlink="http://www.w3.org/1999/xlink"
                 aria-hidden="true"
                 role="img"
-                width="1em"
-                height="1em"
                 preserveAspectRatio="xMidYMid meet"
                 viewBox="0 0 256 256"
               >
@@ -139,17 +127,15 @@ export default function Footer() {
                   fill="#545454"
                   d="M232 84v40a8 8 0 0 1-8 8a103.2 103.2 0 0 1-48-11.7V156a76 76 0 1 1-89.4-74.8a8 8 0 0 1 6.5 1.7a7.8 7.8 0 0 1 2.9 6.2v41.6a7.9 7.9 0 0 1-4.6 7.2A20 20 0 1 0 120 156V28a8 8 0 0 1 8-8h40a8 8 0 0 1 8 8a48 48 0 0 0 48 48a8 8 0 0 1 8 8Z"
                 />
-              </svg>{' '}
-            </a>
-            <a href=" " target="_blank">
+              </svg>
+            </Link>
+            <Link href=" " className="w-8 h-8">
               <svg
                 className="logo-footer-icon"
                 xmlns="http://www.w3.org/2000/svg"
                 xmlnsXlink="http://www.w3.org/1999/xlink"
                 aria-hidden="true"
                 role="img"
-                width="1em"
-                height="1em"
                 preserveAspectRatio="xMidYMid meet"
                 viewBox="0 0 24 24"
               >
@@ -159,17 +145,15 @@ export default function Footer() {
                   d="M24 12c0 6.627-5.373 12-12 12S0 18.627 0 12S5.373 0 12 0s12 5.373 12 12ZM12.43 8.859c-1.167.485-3.5 1.49-6.998 3.014c-.568.226-.866.447-.893.663c-.046.366.412.51 1.034.705c.085.027.173.054.263.084c.613.199 1.437.432 1.865.441c.389.008.823-.152 1.302-.48c3.268-2.207 4.955-3.322 5.061-3.346c.075-.017.179-.039.249.024c.07.062.063.18.056.212c-.046.193-1.84 1.862-2.77 2.726c-.29.269-.495.46-.537.504c-.094.097-.19.19-.282.279c-.57.548-.996.96.024 1.632c.49.323.882.59 1.273.856c.427.291.853.581 1.405.943c.14.092.274.187.405.28c.497.355.944.673 1.496.623c.32-.03.652-.331.82-1.23c.397-2.126 1.179-6.73 1.36-8.628a2.111 2.111 0 0 0-.02-.472a.506.506 0 0 0-.172-.325c-.143-.117-.365-.142-.465-.14c-.451.008-1.143.249-4.476 1.635Z"
                   clipRule="evenodd"
                 />
-              </svg>{' '}
-            </a>
-            <a href=" " target="_blank">
+              </svg>
+            </Link>
+            <Link href=" " className="w-8 h-8">
               <svg
                 className="logo-footer-icon"
                 xmlns="http://www.w3.org/2000/svg"
                 xmlnsXlink="http://www.w3.org/1999/xlink"
                 aria-hidden="true"
                 role="img"
-                width="1em"
-                height="1em"
                 preserveAspectRatio="xMidYMid meet"
                 viewBox="0 0 24 24"
               >
@@ -178,7 +162,7 @@ export default function Footer() {
                   d="M1.16 16.466c.049 0 .09-.039.098-.093l.27-2.022l-.27-2.069a.103.103 0 0 0-.099-.093c-.05 0-.094.04-.1.093l-.236 2.069l.236 2.021c.006.055.05.094.1.094Zm-.888-.769c.048 0 .088-.036.095-.09l.209-1.256l-.209-1.28c-.007-.053-.047-.09-.095-.09c-.051 0-.09.037-.098.09L0 14.351l.174 1.256c.008.053.047.09.098.09Zm1.948-3.8a.122.122 0 0 0-.12-.114a.12.12 0 0 0-.119.114l-.224 2.454l.224 2.364a.12.12 0 0 0 .12.112a.121.121 0 0 0 .12-.113l.254-2.363l-.254-2.454Zm.832 5.025a.143.143 0 0 0 .14-.132l.241-2.439l-.24-2.522a.143.143 0 0 0-.141-.132a.14.14 0 0 0-.14.133l-.213 2.521l.212 2.439a.14.14 0 0 0 .141.133Zm.958.04a.162.162 0 0 0 .162-.152l.226-2.459l-.226-2.34a.162.162 0 0 0-.162-.151a.16.16 0 0 0-.16.152l-.2 2.34l.2 2.458a.16.16 0 0 0 .16.152Zm1.36-2.61l-.212-3.805a.184.184 0 0 0-.182-.173a.183.183 0 0 0-.182.173l-.188 3.805l.188 2.458a.183.183 0 0 0 .364 0l.212-2.458Zm.581 2.635a.201.201 0 0 0 .201-.192v.002l.199-2.444l-.199-4.676a.203.203 0 0 0-.405 0l-.174 4.676l.175 2.443a.201.201 0 0 0 .203.19Zm.98-7.911a.222.222 0 0 0-.223.212l-.162 5.065l.162 2.418a.221.221 0 0 0 .223.211a.22.22 0 0 0 .223-.211l.185-2.418l-.185-5.065a.22.22 0 0 0-.223-.212Zm.989 7.911a.24.24 0 0 0 .244-.232v.002l.17-2.404l-.17-5.235a.24.24 0 0 0-.243-.232a.238.238 0 0 0-.243.232l-.153 5.235l.153 2.404c.002.129.11.23.243.23Zm.998-.002a.26.26 0 0 0 .263-.252v.002l.157-2.381l-.157-5.103a.26.26 0 0 0-.263-.25a.26.26 0 0 0-.264.25l-.138 5.103l.139 2.38c.003.14.119.25.263.25Zm1.431-2.631l-.142-4.917a.28.28 0 0 0-.284-.27a.28.28 0 0 0-.285.271l-.127 4.916l.127 2.366a.28.28 0 0 0 .285.27a.28.28 0 0 0 .284-.273v.003l.142-2.366Zm.586 2.64c.165 0 .301-.13.304-.29l.129-2.349l-.129-5.85a.301.301 0 0 0-.304-.291a.303.303 0 0 0-.305.291l-.115 5.848l.115 2.352c.003.158.14.289.305.289Zm1.009-9.33a.322.322 0 0 0-.327.31l-.133 6.382l.134 2.315a.32.32 0 0 0 .325.308a.32.32 0 0 0 .324-.311v.003l.146-2.315l-.146-6.381a.32.32 0 0 0-.323-.311Zm.922 9.332l8.181.004C22.678 17 24 15.732 24 14.167c0-1.564-1.322-2.832-2.953-2.832c-.404 0-.79.079-1.142.22C19.672 9.003 17.44 7 14.718 7c-.665 0-1.314.126-1.887.339c-.223.083-.283.168-.285.333v8.989a.349.349 0 0 0 .32.335Z"
                 />
               </svg>
-            </a>
+            </Link>
           </div>
         </div>
         <div className="text-white flex  justify-evenly">

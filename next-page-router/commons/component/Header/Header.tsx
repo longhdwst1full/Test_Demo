@@ -57,7 +57,7 @@ export default function Header() {
               <img className=" w-full object-cover" src="./logo.webp" alt="" />
             </div>
             {/* nav */}
-            <div className="flex items-center text-white">
+            {/* <div className="flex items-center text-white">
               {navHeader.map((item, i) => (
                 <li
                   className={`list-none mx-1 rounded cursor-pointer px-1 py-2 text-[18px] ${
@@ -88,13 +88,13 @@ export default function Header() {
                   
                 </li>
               ))}
-            </div>
+            </div> */}
           </div>
 
           <div className="flex gap-x-1 p-2 xl:text-lg">
-            <Link className="text-[#f8c21b] mr-5" href={'#'}>
+            {/* <Link className="text-[#f8c21b] mr-5" href={'#'}>
               Ứng tuyển BLV
-            </Link>
+            </Link> */}
 
             <div className={`flex gap-1  scroll-color ${background ? 'text-[#f8c21b]' : 'text-white'}`}>
               <Link href={'#'}>Đăng nhập</Link>

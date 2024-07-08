@@ -30,41 +30,36 @@ export default function Room() {
               />
             </div>
             <div className="col-span-3 ml-1">
-              <div className="  mx-1 my-1.5 rounded bg-white">
-
+              <div className="  mx-1 my-1.5 rounded bg-white relative">
                 {/* <div className='flex justify-start gap-x-1 p-3  '> */}
 
-                <p className='p-3.5'>
-
+                <p className="p-3.5 absolute">
                   <img className="w-4 h-4 object-cover" src="https://sta.vnres.co/web/assets/soco/img/icon-announcement@2x.png" alt="" />
-                  <span className='font-medium'>
-                    Thông báo:
-                  </span>
-                  Đến với live của Thạch Tú là ae sẽ bú nhé
+                 <span>
+                  <span className="font-medium inline-block">Thông báo:</span>
+                  Đến với live của Thạch Tú
+                  </span> 
                 </p>
                 {/* </div> */}
 
                 {/* tab */}
                 <div className="tab">
                   <div className="tab-item tab-active" data-id="0">
-                    <span  >Phòng trò chuyện</span>
+                    <span>Phòng trò chuyện</span>
                   </div>
                   <div className="tab-item" data-id="1">
-                    <span  >Bảng xếp hạng</span>
+                    <span>Bảng xếp hạng</span>
                   </div>
                 </div>
                 {/*  */}
 
                 <div className="chat-center h-[264.156px] overflow-y-auto">
                   <div className="chat-panel" id="talkScroll">
-ddd
+                    ddd
+                  </div>
                 </div>
-                </div>
-                <div className=''>
-                   <div className='px-2 pt-2'>
-                    fff
-                   </div>
-                    
+                <div className="">
+                  <div className="px-2 pt-2">fff</div>
                 </div>
               </div>
             </div>
@@ -74,7 +69,7 @@ ddd
 
       {/* body*/}
       <div className="container m-auto">
-        <h2 className='my-3 py-2 font-medium text-xl'>Đề xuất video</h2>
+        <h2 className="my-3 py-2 font-medium text-xl">Đề xuất video</h2>
 
         {/*  */}
         <div className="mt-5 grid grid-cols-4 grid-rows-3 gap-5">
