@@ -31,20 +31,23 @@ export default function Room() {
             </div>
             <div className="col-span-3 ml-1">
               <div className="  mx-1 my-1.5 rounded bg-white relative">
-                {/* <div className='flex justify-start gap-x-1 p-3  '> */}
-
-                <p className="p-3.5 absolute">
-                  <img className="w-4 h-4 object-cover" src="https://sta.vnres.co/web/assets/soco/img/icon-announcement@2x.png" alt="" />
-                 <span>
-                  <span className="font-medium inline-block">Thông báo:</span>
-                  Đến với live của Thạch Tú
-                  </span> 
-                </p>
-                {/* </div> */}
+                <div className="  ">
+                  <p className="p-3.5 leading-[18px] break-words">
+                    <img
+                      className="absolute w-4 h-4 object-cover top-4 ml-2"
+                      src="https://sta.vnres.co/web/assets/soco/img/icon-announcement@2x.png"
+                      alt=""
+                    />
+                    <span className="ml-8">
+                      <span className="font-medium inline-block mr-1">Thông báo:</span>
+                      Đến với live của Đến với live của Đến với live của Đến với live của
+                    </span>
+                  </p>
+                </div>
 
                 {/* tab */}
                 <div className="tab">
-                  <div className="tab-item tab-active" data-id="0">
+                  <div className="tab-item tab-active">
                     <span>Phòng trò chuyện</span>
                   </div>
                   <div className="tab-item" data-id="1">
@@ -54,12 +57,15 @@ export default function Room() {
                 {/*  */}
 
                 <div className="chat-center h-[264.156px] overflow-y-auto">
-                  <div className="chat-panel" id="talkScroll">
+                  <div className="chat-panel px-2 py-1 bg-[#f4f4f4] h-full" id="talkScroll">
                     ddd
                   </div>
                 </div>
                 <div className="">
-                  <div className="px-2 pt-2">fff</div>
+                  <div className="px-2 pt-2 flex space-x-1">
+                    <input type="text" className="w-3/4 border-[1px] border-gray-500 p-1.5 mb-2 rounded" />
+                    <button className="w-1/4 bg-[#e5e5e5]">Gui</button>
+                  </div>
                 </div>
               </div>
             </div>

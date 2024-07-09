@@ -46,7 +46,21 @@ export default function Page() {
       link: '',
     },
   ];
-  const [tabClick, setTabClick] = useState(0);
+  // const [tabClick, setTabClick] = useState(0);
+
+  const [display, setDisplay] = useState(true);
+  const [width, setWidth] = useState(600);
+
+  const settings = {
+    className: '!rounded-full overflow-hidden !w-36 !h-36 ',
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 6,
+    slidesToScroll: 1,
+    adaptiveHeight: true,
+  };
+
   return (
     <div className="bg-[#f0f1f6]">
       <div
@@ -97,10 +111,10 @@ export default function Page() {
 
       <div className="container m-auto ">
         <div className="mt-4 flex items-center">
-          <span className="hot-live flex items-center h-12 mr-4">
+          {/* <span className="hot-live flex items-center h-12 mr-4">
             <img className="object-cover h-full" src="./hot-live.webp" alt="" />
-          </span>
-          {/* <ul className="flex gap-x-1">
+          </span>  
+          <ul className="flex gap-x-1">
             {menuBody.map((item, i) => {
               return (
                 <li key={i} className={`relative cursor-pointer ${tabClick == i && 'text-xl font-semibold'} px-2 py-0.5 ml-6`}>
@@ -110,6 +124,36 @@ export default function Page() {
               );
             })}
           </ul> */}
+        </div>
+
+        <div className="my-10 bg-white relative">
+          <div className="title-block">
+            <img src="//sta.vnres.co/web/assets/soco/img/hot-zb.png" alt="热门主播" />
+          </div>
+          <div className="flex">
+            <div className="!rounded-full overflow-hidden ">
+              <img className="object-cover w-full h-full" src="https://sta.vnres.co/file/pic/202201/04/0b8fba6a9be73ec9edad44bc4c9b0166" />
+            </div>
+            <div className="!rounded-full overflow-hidden ">
+              <img className="object-cover w-full h-full" src="https://sta.vnres.co/file/pic/202201/04/0b8fba6a9be73ec9edad44bc4c9b0166" />
+            </div>
+            <div className="!rounded-full overflow-hidden">
+              <img className="object-cover w-full h-full" src="https://sta.vnres.co/file/pic/202201/04/0b8fba6a9be73ec9edad44bc4c9b0166" />
+              {/* <p className="ellipsis">RICKHANTER</p> */}
+            </div>
+          </div>
+          {/* <div
+            className="swiper-button-prev anchor-prev swiper-button-disabled"
+            tabIndex={0}
+            role="button"
+            aria-label="Previous slide"
+            aria-disabled="true"
+          >
+            <i className="iconfont ali-houtuismall" />
+          </div>
+          <div className="swiper-button-next anchor-next" tabIndex={0} role="button" aria-label="Next slide" aria-disabled="false">
+            <i className="iconfont ali-qianjinsmall" />
+          </div> */}
         </div>
 
         {/*  */}
@@ -122,7 +166,7 @@ export default function Page() {
                   <div className="mask" />
                   <div className="w-full overflow-hidden">
                     <img
-                      className="object-cover w-full h-full"
+                      className="object-cover  "
                       src="https://png.pngtree.com/element_our/png_detail/20181108/little-boy-sit-studying-png_232197.jpg"
                     />
                   </div>
