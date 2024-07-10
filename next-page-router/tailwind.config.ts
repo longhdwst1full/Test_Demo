@@ -2,8 +2,9 @@ import type { Config } from 'tailwindcss'
 
 const config: Config = {
   content: [
+    "./node_modules/flowbite/**/*.js",
     './pages/**/*.{js,ts,jsx,tsx,mdx}',
-    './commons/**/*.{js,ts,jsx,tsx,mdx}'
+    './commons/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
     extend: {
@@ -12,6 +13,9 @@ const config: Config = {
       }
     }
   },
+  plugins: [
+    require('flowbite/plugin')
+  ]
 
 }
 export default config

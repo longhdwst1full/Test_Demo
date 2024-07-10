@@ -1,10 +1,29 @@
-import Link from 'next/link';
-import { useParams, useSearchParams } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
+import { setAuthData } from '@/hook/token';
 
-export default function Header() {
+import { useSevices } from '@/hook/useSevices';
+import { Login, LoginSchema } from '@/utils/validate';
+import { yupResolver } from '@hookform/resolvers/yup';
+import Link from 'next/link';
+import { useParams } from 'next/navigation';
+import { memo, useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { useRouter } from 'next/router';
+
+const Header = () => {
   const param = useParams();
-  console.log(param, '::::');
+  const router = useRouter();
+  const { chatId } = router.query;
+  console.log(chatId, '::::');
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<Login>({
+    mode: 'onChange',
+    resolver: yupResolver(LoginSchema),
+  });
+
   const navHeader = [
     {
       title: 'Trang chủ',
@@ -27,9 +46,9 @@ export default function Header() {
       link: 'd',
     },
   ];
-
-  const [selected, setSelected] = useState(0);
+  const [loginModal, setLoginModal] = useState(false);
   const [background, setBackground] = useState(false);
+  const { postCaller, getCaller } = useSevices();
 
   const handleScroll = () => {
     if (window.scrollY > 50) {
@@ -47,17 +66,31 @@ export default function Header() {
     };
   }, []);
 
+  const handleSubmitForm = (data: Login) => {
+    postCaller('/auth/login', {
+      ...data,
+    }).then(async (data: any) => {
+      setLoginModal(false);
+      if (!data) return false;
+
+      setAuthData(data.data);
+      alert('Đăng nhập thành công');
+      reset();
+    });
+  };
+
   return (
-    <div className={`fixed z-40 top-0 right-0 left-0   ${background ? 'header scrolled' : 'header'}`}>
-      <div className="container m-auto ">
-        {/* header */}
-        <div className="flex justify-between items-center">
-          <div className="flex-1 flex items-center">
-            <div className="w-16 py-2 overflow-hidden mr-4">
-              <img className=" w-full object-cover" src="./logo.webp" alt="" />
-            </div>
-            {/* nav */}
-            {/* <div className="flex items-center text-white">
+    <>
+      <div className={`fixed z-40 top-0 right-0 left-0   ${background ? 'header scrolled' : 'header'}`}>
+        <div className="container m-auto ">
+          {/* header */}
+          <div className="flex justify-between items-center">
+            <div className="flex-1 flex items-center">
+              <div className="w-16 py-2 overflow-hidden mr-4">
+                <img className=" w-full object-cover" src="./logo.webp" alt="" />
+              </div>
+              {/* nav */}
+              {/* <div className="flex items-center text-white">
               {navHeader.map((item, i) => (
                 <li
                   className={`list-none mx-1 rounded cursor-pointer px-1 py-2 text-[18px] ${
@@ -89,21 +122,105 @@ export default function Header() {
                 </li>
               ))}
             </div> */}
-          </div>
+            </div>
 
-          <div className="flex gap-x-1 p-2 xl:text-lg">
-            {/* <Link className="text-[#f8c21b] mr-5" href={'#'}>
+            <div className="flex gap-x-1 p-2 xl:text-lg">
+              {/* <Link className="text-[#f8c21b] mr-5" href={'#'}>
               Ứng tuyển BLV
             </Link> */}
 
-            <div className={`flex gap-1  scroll-color ${background ? 'text-[#f8c21b]' : 'text-white'}`}>
-              <Link href={'#'}>Đăng nhập</Link>
-              <span className=" ">|</span>
-              <Link href={'#'}>Đăng kí </Link>
+              <div className={`flex gap-1  scroll-color ${background ? 'text-[#f8c21b]' : 'text-white'}`}>
+                <Link onClick={() => setLoginModal(true)} href={'#'}>
+                  Đăng nhập
+                </Link>
+                <span className=" ">|</span>
+                <Link href={'#'}>Đăng kí </Link>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+
+      {loginModal && (
+        <div className="fixed top-0 right-0 left-0 bottom-0 z-[99999999] flex justify-center items-center w-full md:inset-0 h-[100vh]  !bg-[rgba(0,0,0,.7)]">
+          <div className="relative p-4 w-full max-w-md max-h-full">
+            {/* Modal content */}
+            <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
+              {/* Modal header */}
+              <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white">Đăng nhập </h3>
+                <button
+                  type="button"
+                  className="end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                  data-modal-hide="authentication-modal"
+                >
+                  <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                    <path
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                    />
+                  </svg>
+                  <span className="sr-only">Close modal</span>
+                </button>
+              </div>
+              {/* Modal body */}
+              <div className="p-4 md:p-5">
+                <form className="space-y-4" onSubmit={handleSubmit(handleSubmitForm)}>
+                  <div>
+                    <input
+                      type="text"
+                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                      placeholder="Nhập số điện thoại"
+                      {...register('phone')}
+                    />
+                    {errors.phone && <span className="text-red-500 text-[13px] self-start">{errors.phone.message}</span>}
+                  </div>
+                  <div>
+                    <input
+                      type="password"
+                      placeholder="Nhập mật khẩu"
+                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                      {...register('passWord')}
+                    />
+
+                    {errors.passWord && <span className="text-red-500 text-[13px] self-start">{errors.passWord.message}</span>}
+                  </div>
+                  <div className="flex justify-between">
+                    <div className="flex items-start">
+                      <div className="flex items-center h-5">
+                        <input
+                          id="remember"
+                          type="checkbox"
+                          className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-600 dark:border-gray-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"
+                        />
+                      </div>
+                      <label htmlFor="remember" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                        Remember me
+                      </label>
+                    </div>
+                  </div>
+                  <button
+                    type="submit"
+                    className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                  >
+                    Login to your account
+                  </button>
+                  <div className="text-sm font-medium text-gray-500 dark:text-gray-300">
+                    Not registered?{' '}
+                    <a href="#" className="text-blue-700 hover:underline dark:text-blue-500">
+                      Create account
+                    </a>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
-}
+};
+export default memo(Header);

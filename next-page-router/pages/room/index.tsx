@@ -1,10 +1,65 @@
 import Footer from '@/commons/component/Footer/Footer';
 import Header from '@/commons/component/Header/Header';
+import { ClientSocket, socket } from '@/commons/socket/socket';
+import { getAuthLocalData } from '@/hook/token';
+import { useSevices } from '@/hook/useSevices';
+import { IDataRes, IMessageLiveChatRoom } from '@/module/type';
 import Link from 'next/link';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Marquee from 'react-fast-marquee';
 
 export default function Room() {
+  const { postCaller, getCaller } = useSevices();
+  const [getAllChat, setGetAllChat] = useState<IMessageLiveChatRoom[]>([]);
+  const [content, setContent] = useState<string>('');
+  const user = getAuthLocalData();
+  const roomId = 'd7fac35d-7fc4-4f08-8c54-cea6c82d0a4e';
+  useEffect(() => {
+    if (user?.userId && roomId) {
+      socket.on('receiveMessage', (data) => {
+        setGetAllChat(data.payload.data);
+      });
+      ClientSocket.JoinRoom({ room: roomId, userId: user?.userId });
+    }
+    return () => {
+      socket.emit('leaveRoom', { room: roomId });
+      socket.off();
+      ClientSocket.Disconnect();
+    };
+  }, [roomId]);
+
+  const handleGetAllChat = async () => {
+    try {
+      const { data } = await getCaller<IDataRes<IMessageLiveChatRoom[]>>(
+        'chat-message/getallByRoomId/d7fac35d-7fc4-4f08-8c54-cea6c82d0a4e',
+      );
+
+      if (data) {
+        setGetAllChat(data?.payload?.data || []);
+      }
+    } catch (error) {
+      alert(error);
+    }
+  };
+
+  // create chat
+  const handleCreateChat = () => {
+    if (!user) {
+      return alert('user not found');
+    }
+    const dataBody = {
+      user: user?.userId,
+      message: content,
+      roomchat: roomId,
+    };
+    ClientSocket.sendMessage({ ...dataBody, chatRoom: dataBody.roomchat });
+
+    setContent('');
+    socket.on('receiveMessage', (data) => {
+      setGetAllChat(data.payload.data);
+    });
+  };
+
   return (
     <div>
       <div
@@ -20,30 +75,23 @@ export default function Room() {
           </div>
           <div className="grid grid-cols-11 w-full rounded bg-black">
             <div className="col-span-8">
-              <iframe
-                className="object-cover h-full w-full"
-                src="https://www.youtube.com/embed/nrRxp8jqE4c?si=g1Ndzjpf7iGtka_C"
-                title="YouTube video player"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                referrerPolicy="strict-origin-when-cross-origin"
-                allowFullScreen
-              />
+              <video autoPlay controls className="video-container ">
+                <source src="https://getstream.io/downloads/react_example-gaming_livestream.mp4" />
+              </video>
             </div>
             <div className="col-span-3 ml-1">
-              <div className="  mx-1 my-1.5 rounded bg-white relative">
-                <div className="  ">
-                  <p className="p-3.5 leading-[18px] break-words">
-                    <img
-                      className="absolute w-4 h-4 object-cover top-4 ml-2"
-                      src="https://sta.vnres.co/web/assets/soco/img/icon-announcement@2x.png"
-                      alt=""
-                    />
-                    <span className="ml-8">
-                      <span className="font-medium inline-block mr-1">Thông báo:</span>
-                      Đến với live của Đến với live của Đến với live của Đến với live của
-                    </span>
-                  </p>
-                </div>
+              <div className="mx-1 my-1.5 rounded h-full overflow-hidden bg-white relative flex flex-col">
+                <p className="p-3.5 leading-[18px] break-words">
+                  <img
+                    className="absolute w-4 h-4 object-cover top-4 ml-2"
+                    src="https://sta.vnres.co/web/assets/soco/img/icon-announcement@2x.png"
+                    alt=""
+                  />
+                  <span className="ml-8">
+                    <span className="font-medium inline-block mr-1">Thông báo:</span>
+                    Đến với live của Đến với live của Đến với live của Đến với live của
+                  </span>
+                </p>
 
                 {/* tab */}
                 <div className="tab">
@@ -56,15 +104,31 @@ export default function Room() {
                 </div>
                 {/*  */}
 
-                <div className="chat-center h-[264.156px] overflow-y-auto">
-                  <div className="chat-panel px-2 py-1 bg-[#f4f4f4] h-full" id="talkScroll">
-                    ddd
+                <div className=" overflow-y-auto flex-1  ">
+                  <div className="overflow-y-auto h-[499px] ">
+                    {getAllChat &&
+                      getAllChat.map((item, i) => (
+                        <div key={i} className="px-2 py-1 bg-[#f4f4f4] cursor-pointer ">
+                          <div className="break-all px-1 py-1 text-base !leading-3 ">
+                            <span className="font-semibold">{item?.user?.nickname} :</span>
+                            <span className="ml-1 font-normal ">{item?.message}</span>
+                          </div>
+                        </div>
+                      ))}
                   </div>
                 </div>
-                <div className="">
-                  <div className="px-2 pt-2 flex space-x-1">
-                    <input type="text" className="w-3/4 border-[1px] border-gray-500 p-1.5 mb-2 rounded" />
-                    <button className="w-1/4 bg-[#e5e5e5]">Gui</button>
+                <div className="p-3">
+                  <div className=" flex mb-2 border-[1px] overflow-hidden rounded border-[#d8d8d8]">
+                    <input
+                      type="text"
+                      value={content}
+                      onChange={(e) => setContent(e.target.value)}
+                      onKeyDown={(e) => (e.key === 'Enter' ? handleCreateChat() : null)}
+                      className="flex-1 p-1.5 "
+                    />
+                    <button onClick={handleCreateChat} className="bg-[#e5e5e5] py-3 px-6">
+                      Gửi
+                    </button>
                   </div>
                 </div>
               </div>
@@ -111,6 +175,8 @@ export default function Room() {
         </div>
       </div>
       <Footer />
+
+      {/*  */}
     </div>
   );
 }
