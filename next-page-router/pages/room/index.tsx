@@ -1,83 +1,131 @@
 import Footer from '@/commons/component/Footer/Footer';
 import Header from '@/commons/component/Header/Header';
-import { ClientSocket, socket } from '@/commons/socket/socket';
+import { ClientSocket } from '@/commons/socket/socket';
 import { getAuthLocalData } from '@/hook/token';
-import { useSevices } from '@/hook/useSevices';
-import { IDataRes, IMessageLiveChatRoom } from '@/module/type';
+import { useSocket } from '@/hook/useSocket';
+import { IMessageLiveChatRoom } from '@/module/type';
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Marquee from 'react-fast-marquee';
+import VideoItem from '../../commons/component/VideoItem';
 
 export default function Room() {
-  const { postCaller, getCaller } = useSevices();
-  const [getAllChat, setGetAllChat] = useState<IMessageLiveChatRoom[]>([]);
+  const socket = useSocket();
+  const [getAllChat, setAllChat] = useState<IMessageLiveChatRoom[]>([]);
   const [content, setContent] = useState<string>('');
   const user = getAuthLocalData();
   const roomId = 'd7fac35d-7fc4-4f08-8c54-cea6c82d0a4e';
   useEffect(() => {
-    if (user?.userId && roomId) {
-      socket.on('receiveMessage', (data) => {
-        setGetAllChat(data.payload.data);
-      });
-      ClientSocket.JoinRoom({ room: roomId, userId: user?.userId });
-    }
-    return () => {
-      socket.emit('leaveRoom', { room: roomId });
-      socket.off();
-      ClientSocket.Disconnect();
-    };
-  }, [roomId]);
+    if (socket && user?.userId && roomId) {
+      const handleReceiveMessage = (data: { payload: { data: IMessageLiveChatRoom[] } }) => {
+        setAllChat(data.payload.data);
+      };
 
-  const handleGetAllChat = async () => {
-    try {
-      const { data } = await getCaller<IDataRes<IMessageLiveChatRoom[]>>(
-        'chat-message/getallByRoomId/d7fac35d-7fc4-4f08-8c54-cea6c82d0a4e',
-      );
-
-      if (data) {
-        setGetAllChat(data?.payload?.data || []);
-      }
-    } catch (error) {
-      alert(error);
+      socket.emit('joinChat', { room: roomId, userId: user.userId });
+      socket.on('receiveMessage', handleReceiveMessage);
+      return () => {
+        socket.emit('leaveRoom', { room: roomId });
+        socket.off('receiveMessage', handleReceiveMessage);
+        ClientSocket.Disconnect();
+      };
     }
-  };
+  }, [roomId, socket, user]);
 
   // create chat
-  const handleCreateChat = () => {
-    if (!user) {
-      return alert('user not found');
+  const handleCreateChat = useCallback(() => {
+    if (!socket || !user) {
+      console.warn('Socket or user not available');
+      return;
     }
+
     const dataBody = {
       user: user?.userId,
       message: content,
       roomchat: roomId,
     };
-    ClientSocket.sendMessage({ ...dataBody, chatRoom: dataBody.roomchat });
 
+    socket.emit('sendMessage', { ...dataBody, chatRoom: dataBody.roomchat });
     setContent('');
     socket.on('receiveMessage', (data) => {
-      setGetAllChat(data.payload.data);
+      setAllChat(data.payload.data);
     });
-  };
+  }, [content, socket, user]);
 
   return (
-    <div>
+    <div className="bg-[#f0f1f6]">
       <div
-        className="bg-header-image"
+        className="bg-header-image "
         style={{
           backgroundImage: "url('../bg.png')",
         }}
       >
         <Header />
-        <div className="container m-auto pt-28">
+        <div className="w-[89%] m-auto pt-28">
           <div className="h-6 bg-[#10223d] rounded-md  text-white">
             <Marquee>Link đang chạy</Marquee>
           </div>
           <div className="grid grid-cols-11 w-full rounded bg-black">
-            <div className="col-span-8">
+            <div className="col-span-8 relative">
               <video autoPlay controls className="video-container ">
                 <source src="https://getstream.io/downloads/react_example-gaming_livestream.mp4" />
               </video>
+              <div className="w-full bg-white px-6 py-5 absolute bottom-0 rounded-b-md overflow-hidden h-[100px] flex justify-between mb-2">
+                <div className="flex-1">
+                  <div>
+                    <img
+                      className="float-left w-14 h-14 rounded-full mr-3"
+                      src="https://sta.vnres.co/file/head/20231110/053fecd105594fbc1bbd33888e39391b_ss300.jpg"
+                    />
+                  </div>
+                  <div className="text flex-1">
+                    <p className="text-lg font-semibold mt-1">MEX D1: Club Tijuana vs Chivas Guadalajara</p>
+                    <p className="text-msg relative mt-2 text-sm">
+                      <span className="inline-block overflow-hidden text-ellipsis whitespace-nowrap align-top">BLV CRIS</span>{' '}
+                      <span className="room-num text-[#777] mx-2.5">Số phòng:499765</span>{' '}
+                      <span className="view-num pl-4 text-[#7777] bg-[url('//sta.vnres.co/web/assets/soco/img/icon-hot-gray.png')] bg-no-repeat bg-left-center bg-[length:14px_auto] ">
+                        67088
+                      </span>
+                      <span
+                        className="absolute left-0 -bottom-[17px] pl-[15px] bg-[url('//sta.vnres.co/web/assets/soco/img/mobile.png')] bg-no-repeat bg-[length:11px_16px] bg-left-top text-sm"
+                        hidden
+                        style={{ display: 'inline' }}
+                      ></span>
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center">
+                  <Link href="#" className="min-w-16 rounded-2xl text-white mr-2 font-medium py-1 px-4 leading-10 text-base bg-yellow-400">
+                    Follow
+                  </Link>{' '}
+                  <Link href="" className="get-code">
+                    <div className="w-9 h-9 p-1 mx-1 mr-2 overflow-hidden">
+                      <img src="//sta.vnres.co/web/assets/soco/img/icon-room-code.png" className="object-cover w-full" />
+                    </div>
+
+                    <div className="showBigCode  flex flex-col hidden">
+                      <b className="arrow-up" />
+                      <div>
+                        <canvas id="qrCodeCanvas" className="bigCode" height={120} width={120} style={{ height: 120, width: 120 }} />
+                      </div>
+                      <span>Quét mã</span>
+                      <br />
+                      <span>Đồng bộ điện thoại xem trực tiếp</span>
+                    </div>
+                  </Link>
+                  <Link href="" className="text-[#777] mr-2 ml-1 inline-block ">
+                    Phản hồi
+                  </Link>
+                  <Link href="" className="more">
+                    <img src="//sta.vnres.co/web/assets/soco/img/icon-more-down.png" />
+                    <div className="more-box hidden">
+                      <b className="arrow-up" />
+                      <div className="report item" i18n-text="举报">
+                        Báo cáo
+                      </div>
+                    </div>
+                  </Link>
+                </div>
+              </div>
             </div>
             <div className="col-span-3 ml-1">
               <div className="mx-1 my-1.5 rounded h-full overflow-hidden bg-white relative flex flex-col">
@@ -146,31 +194,7 @@ export default function Room() {
           {Array(10)
             .fill(0)
             .map((_, i) => {
-              return (
-                <Link key={i} href="" className="relative hover-iconPlay">
-                  <div className="mask" />
-                  <img
-                    className="object-cover w-full"
-                    src="https://png.pngtree.com/element_our/png_detail/20181108/little-boy-sit-studying-png_232197.jpg"
-                  />
-                  <div className="live-mask" />
-                  <i className="btn-open" />
-                  <div className="absolute top-2.5 scale-[1] right-0 mr-3">
-                    <div className="h-[18px] bg-[#fa3434]   px-2 py-2 flex gap-1 justify-center items-center">
-                      <img className="h-2.5 w-full" src="./living.gif" />
-                      <span className="text-white">Live</span>
-                    </div>
-                  </div>
-                  <div className="absolute bottom-12 z-10 font-normal w-full text-white tracking-wide bg-custom-gradient flex justify-between px-2  items-center">
-                    <span className="">BLV DUSTIN</span>
-                    <p className="flex">
-                      <img className="w-4 mr-0.5 object-cover" src="./icon-hot-white.webp" />
-                      <span className="">26.94k</span>
-                    </p>
-                  </div>
-                  <h4 className="bg-white h-10 font-normal px-3.5  rounded-b-lg text-black">NZBL: Nelson Giants vs Otago Nuggets</h4>
-                </Link>
-              );
+              return <VideoItem key={i} />;
             })}
         </div>
       </div>

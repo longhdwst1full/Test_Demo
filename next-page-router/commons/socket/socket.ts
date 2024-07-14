@@ -5,16 +5,16 @@ export const socket: Socket = io('ws://localhost:5000', {
 })
 
 export const ClientSocket = {
+
     JoinRoom: (data: { room: string, userId: string }) => {
-        socket.connect()
+        if (!socket.connected) {
+            socket.connect()
+        }
+
         socket.emit('joinChat', data)
     },
     Disconnect: () => {
         socket.disconnect()
-    },
-
-    cancelOrder: (id: string) => {
-        socket.emit('client:cancelOrder', id)
     },
 
 
@@ -22,8 +22,8 @@ export const ClientSocket = {
         socket.emit('sendMessage', data)
     },
 
-    receiverMessage:  () => {
-        socket.on('receiveMessage', async(newChat) => {
+    receiverMessage: () => {
+        socket.on('receiveMessage', async (newChat) => {
             console.log(newChat, "DDDD")
             return await newChat
         })
