@@ -56,6 +56,7 @@ export default function NavbarDash({ children }: Props) {
   };
   return (
     <Layout className="layout-sider">
+      <HeaderAdmin />
       <Layout>
         <Sider
           collapsed={collapsed}
