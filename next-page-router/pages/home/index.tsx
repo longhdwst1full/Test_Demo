@@ -144,7 +144,7 @@ export default function Page() {
             <img src="//sta.vnres.co/web/assets/soco/img/hot-zb.png" alt="热门主播" />
           </div>
           {/* banner */}
-          <div className="slider-container w-[90%] m-auto relative">
+          <div className="slider-container w-[90%] m-auto">
             <Slider {...settings}>
               <div className="!rounded-full !w-40 !h-4w-40 overflow-hidden ">
                 <img

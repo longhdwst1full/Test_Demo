@@ -231,7 +231,7 @@ export default function Room() {
           {Array(10)
             .fill(0)
             .map((_, i) => {
-              return <VideoItem key={i} />;
+              return <VideoItem isLive={false} key={i} />;
             })}
         </div>
       </div>
