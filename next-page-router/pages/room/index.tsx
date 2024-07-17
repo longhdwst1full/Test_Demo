@@ -5,7 +5,7 @@ import { getAuthLocalData } from '@/hook/token';
 import { useSocket } from '@/hook/useSocket';
 import { IMessageLiveChatRoom } from '@/module/type';
 import Link from 'next/link';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import Marquee from 'react-fast-marquee';
 import VideoItem from '../../commons/component/VideoItem';
 
@@ -15,6 +15,19 @@ export default function Room() {
   const [content, setContent] = useState<string>('');
   const user = getAuthLocalData();
   const roomId = 'd7fac35d-7fc4-4f08-8c54-cea6c82d0a4e';
+  const bottomRef = useRef<any>(null);
+
+  const [isAtBottom, setIsAtBottom] = useState(true);
+  const chatContainerRef = useRef(null);
+  const [showNewMessageIcon, setShowNewMessageIcon] = useState(false);
+
+  const handleScroll = () => {
+    if (chatContainerRef.current) {
+      const { scrollTop, scrollHeight, clientHeight } = chatContainerRef.current;
+      setIsAtBottom(scrollTop + clientHeight >= scrollHeight);
+    }
+  };
+
   useEffect(() => {
     if (socket && user?.userId && roomId) {
       const handleReceiveMessage = (data: { payload: { data: IMessageLiveChatRoom[] } }) => {
@@ -30,6 +43,22 @@ export default function Room() {
       };
     }
   }, [roomId, socket, user]);
+
+  // useEffect(() => {
+  //   bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+  // }, [getAllChat]);
+
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (!isAtBottom) {
+      setShowNewMessageIcon(true);
+    }
+  }, [getAllChat, isAtBottom]);
+
+  const handleNewMessageClick = () => {
+    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+    setShowNewMessageIcon(false);
+  };
 
   // create chat
   const handleCreateChat = useCallback(() => {
@@ -54,19 +83,19 @@ export default function Room() {
   return (
     <div className="bg-[#f0f1f6]">
       <div
-        className="bg-header-image "
+        className="bg-header-image"
         style={{
           backgroundImage: "url('../bg.png')",
         }}
       >
         <Header />
         <div className="w-[89%] m-auto pt-28">
-          <div className="h-6 bg-[#10223d] rounded-md  text-white">
+          <div className="h-6 bg-[#10223d] rounded-md text-white">
             <Marquee>Link đang chạy</Marquee>
           </div>
           <div className="grid grid-cols-11 w-full rounded bg-black">
             <div className="col-span-8 relative">
-              <video autoPlay controls className="video-container ">
+              <video autoPlay controls className="video-container">
                 <source src="https://getstream.io/downloads/react_example-gaming_livestream.mp4" />
               </video>
               <div className="w-full bg-white px-6 py-5 absolute bottom-0 rounded-b-md overflow-hidden h-[100px] flex justify-between mb-2">
@@ -102,7 +131,7 @@ export default function Room() {
                       <img src="//sta.vnres.co/web/assets/soco/img/icon-room-code.png" className="object-cover w-full" />
                     </div>
 
-                    <div className="showBigCode  flex flex-col hidden">
+                    <div className="showBigCode flex flex-col hidden">
                       <b className="arrow-up" />
                       <div>
                         <canvas id="qrCodeCanvas" className="bigCode" height={120} width={120} style={{ height: 120, width: 120 }} />
@@ -112,7 +141,7 @@ export default function Room() {
                       <span>Đồng bộ điện thoại xem trực tiếp</span>
                     </div>
                   </Link>
-                  <Link href="" className="text-[#777] mr-2 ml-1 inline-block ">
+                  <Link href="" className="text-[#777] mr-2 ml-1 inline-block">
                     Phản hồi
                   </Link>
                   <Link href="" className="more">
@@ -152,27 +181,35 @@ export default function Room() {
                 </div>
                 {/*  */}
 
-                <div className=" overflow-y-auto flex-1  ">
-                  <div className="overflow-y-auto h-[499px] ">
+                <div className="overflow-y-auto flex-1" onScroll={handleScroll} ref={chatContainerRef}>
+                  <div className="overflow-y-auto h-[499px]">
                     {getAllChat &&
                       getAllChat.map((item, i) => (
-                        <div key={i} className="px-2 py-1 bg-[#f4f4f4] cursor-pointer ">
-                          <div className="break-all px-1 py-1 text-base !leading-3 ">
+                        <div key={i} className="px-2 py-1 bg-[#f4f4f4] cursor-pointer">
+                          <div className="break-all px-1 py-1 text-base !leading-3">
                             <span className="font-semibold">{item?.user?.nickname} :</span>
-                            <span className="ml-1 font-normal ">{item?.message}</span>
+                            <span className="ml-1 font-normal">{item?.message}</span>
                           </div>
                         </div>
                       ))}
+                    <div ref={bottomRef} />
                   </div>
+                  {showNewMessageIcon && (
+                    <div className="fixed bottom-4 right-4">
+                      <button onClick={handleNewMessageClick} className="p-2 bg-blue-500 text-white rounded-full shadow-lg">
+                        New Messages
+                      </button>
+                    </div>
+                  )}
                 </div>
                 <div className="p-3">
-                  <div className=" flex mb-2 border-[1px] overflow-hidden rounded border-[#d8d8d8]">
+                  <div className="flex mb-2 border-[1px] overflow-hidden rounded border-[#d8d8d8]">
                     <input
                       type="text"
                       value={content}
                       onChange={(e) => setContent(e.target.value)}
                       onKeyDown={(e) => (e.key === 'Enter' ? handleCreateChat() : null)}
-                      className="flex-1 p-1.5 "
+                      className="flex-1 p-1.5"
                     />
                     <button onClick={handleCreateChat} className="bg-[#e5e5e5] py-3 px-6">
                       Gửi

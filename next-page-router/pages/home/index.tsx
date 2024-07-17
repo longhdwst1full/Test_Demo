@@ -1,9 +1,19 @@
+import Slider from 'react-slick';
 import Footer from '@/commons/component/Footer/Footer';
 import Header from '@/commons/component/Header/Header';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import Marquee from 'react-fast-marquee';
 
+function SampleNextArrow(props: any) {
+  const { className, style, onClick } = props;
+  return <div className={`${className}  w-10 h-10 -right-10 `} style={{ ...style, display: 'block' }} onClick={onClick} />;
+}
+
+function SamplePrevArrow(props: any) {
+  const { className, style, onClick } = props;
+  return <div className={`${className}  w-10 h-10 -left-12 `} style={{ ...style, display: 'block' }} onClick={onClick} />;
+}
 export default function Page() {
   const dataVideo = [
     {
@@ -52,13 +62,16 @@ export default function Page() {
   const [width, setWidth] = useState(600);
 
   const settings = {
-    className: '!rounded-full overflow-hidden !w-36 !h-36 ',
+    className: '!w-auto m-auto text-center px-3',
     dots: false,
     infinite: true,
     speed: 500,
     slidesToShow: 6,
+    autoplay: true,
+    autoplaySpeed: 2000,
     slidesToScroll: 1,
-    adaptiveHeight: true,
+    nextArrow: <SampleNextArrow />,
+    prevArrow: <SamplePrevArrow />,
   };
 
   return (
@@ -130,18 +143,60 @@ export default function Page() {
           <div className="title-block">
             <img src="//sta.vnres.co/web/assets/soco/img/hot-zb.png" alt="热门主播" />
           </div>
-          <div className="flex">
-            <div className="!rounded-full overflow-hidden ">
-              <img className="object-cover w-full h-full" src="https://sta.vnres.co/file/pic/202201/04/0b8fba6a9be73ec9edad44bc4c9b0166" />
-            </div>
-            <div className="!rounded-full overflow-hidden ">
-              <img className="object-cover w-full h-full" src="https://sta.vnres.co/file/pic/202201/04/0b8fba6a9be73ec9edad44bc4c9b0166" />
-            </div>
-            <div className="!rounded-full overflow-hidden">
-              <img className="object-cover w-full h-full" src="https://sta.vnres.co/file/pic/202201/04/0b8fba6a9be73ec9edad44bc4c9b0166" />
-              {/* <p className="ellipsis">RICKHANTER</p> */}
-            </div>
+          {/* banner */}
+          <div className="slider-container w-[90%] m-auto relative">
+            <Slider {...settings}>
+              <div className="!rounded-full !w-40 !h-4w-40 overflow-hidden ">
+                <img
+                  className="object-cover w-full h-full"
+                  src="https://sta.vnres.co/file/pic/202201/04/0b8fba6a9be73ec9edad44bc4c9b0166"
+                />
+              </div>
+              <div className="!rounded-full !w-40 !h-4w-40 overflow-hidden ">
+                <img
+                  className="object-cover w-full h-full"
+                  src="https://sta.vnres.co/file/pic/202201/04/0b8fba6a9be73ec9edad44bc4c9b0166"
+                />
+              </div>
+              <div className="!rounded-full !w-40 !h-4w-40 overflow-hidden ">
+                <img
+                  className="object-cover w-full h-full"
+                  src="https://sta.vnres.co/file/pic/202201/04/0b8fba6a9be73ec9edad44bc4c9b0166"
+                />
+              </div>
+              <div className="!rounded-full !w-40 !h-4w-40 overflow-hidden ">
+                <img
+                  className="object-cover w-full h-full"
+                  src="https://sta.vnres.co/file/pic/202201/04/0b8fba6a9be73ec9edad44bc4c9b0166"
+                />
+              </div>
+              <div className="!rounded-full !w-40 !h-4w-40 overflow-hidden ">
+                <img
+                  className="object-cover w-full h-full"
+                  src="https://sta.vnres.co/file/pic/202201/04/0b8fba6a9be73ec9edad44bc4c9b0166"
+                />
+              </div>
+              <div className="!rounded-full !w-40 !h-4w-40 overflow-hidden ">
+                <img
+                  className="object-cover w-full h-full"
+                  src="https://sta.vnres.co/file/pic/202201/04/0b8fba6a9be73ec9edad44bc4c9b0166"
+                />
+              </div>
+              <div className="!rounded-full !w-40 !h-4w-40 overflow-hidden ">
+                <img
+                  className="object-cover w-full h-full"
+                  src="https://sta.vnres.co/file/pic/202201/04/0b8fba6a9be73ec9edad44bc4c9b0166"
+                />
+              </div>
+              <div className="!rounded-full !w-40 !h-4w-40 overflow-hidden ">
+                <img
+                  className="object-cover w-full h-full"
+                  src="https://sta.vnres.co/file/pic/202201/04/0b8fba6a9be73ec9edad44bc4c9b0166"
+                />
+              </div>
+            </Slider>
           </div>
+
           {/* <div
             className="swiper-button-prev anchor-prev swiper-button-disabled"
             tabIndex={0}
