@@ -1,10 +1,13 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  reactStrictMode: true,
-  experimental: {
-    esmExternals: true,
-  },
-  port:"3005"
-}
+const withTM = require('next-transpile-modules')([
+  '@ant-design/icons-svg',
+  '@ant-design/icons',
+  'rc-util', // Transpile rc-util
+  '@babel/runtime', // Also ensure @babel/runtime is transpiled
+]);
 
-module.exports = nextConfig
+module.exports = withTM({
+  reactStrictMode: true,
+  webpack: (config) => {
+    return config;
+  },
+});

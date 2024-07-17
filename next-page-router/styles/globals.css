@@ -131,3 +131,32 @@
   border-bottom: 3px solid #ffb600;
   padding-bottom: 3px;
 }
+#layout .ant-menu-title-content {
+    font-size: 15px;
+}
+#layout .header-content {
+    align-items: center;
+    background-color: #fff;
+    border-bottom: 2px solid #c0c0c0;
+}
+#layout .layout-sider {
+    max-height: 100vh;
+    min-height: 100vh;
+}
+#layout .sider {
+    border-right: 2px solid #c0c0c0;
+}
+
+#headerPage .header {
+    background-color: #305496;
+    display: flex;
+    align-items: center;
+}
+
+#headerPage .header h2 {
+    font-size: 18px;
+    color: #fff;
+    font-weight: 500;
+    margin-bottom: 0em !important;
+}
+
