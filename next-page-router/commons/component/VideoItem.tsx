@@ -3,7 +3,7 @@ import React from 'react';
 
 const VideoItem = ({ isLive = true }: any) => {
   return (
-    <Link href="" className="  hover-iconPlay bg-white rounded-lg overflow-hidden">
+    <Link href="" className="hover-iconPlay bg-white rounded-lg overflow-hidden">
       <img
         className="object-cover w-full"
         src="https://png.pngtree.com/element_our/png_detail/20181108/little-boy-sit-studying-png_232197.jpg"

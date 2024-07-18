@@ -1,13 +1,12 @@
 import { setAuthData } from '@/hook/token';
-
-import { useSevices } from '@/hook/useSevices';
+import { useSevices } from '@/hook/useServices/useSevices';
 import { Login, LoginSchema } from '@/utils/validate';
 import { yupResolver } from '@hookform/resolvers/yup';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
+import { useRouter } from 'next/router';
 import { memo, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useRouter } from 'next/router';
 
 const Header = () => {
   const param = useParams();
@@ -48,7 +47,7 @@ const Header = () => {
   ];
   const [loginModal, setLoginModal] = useState(false);
   const [background, setBackground] = useState(false);
-  const { postCaller, getCaller } = useSevices();
+  const { postCaller } = useSevices();
 
   const handleScroll = () => {
     if (window.scrollY > 50) {

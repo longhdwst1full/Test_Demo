@@ -1,79 +1,15 @@
-import Slider from 'react-slick';
 import Footer from '@/commons/component/Footer/Footer';
 import Header from '@/commons/component/Header/Header';
+import useGetVideoList from '@/hook/useGetVideoList/useGetVideoList';
+import { dataVideo } from '@/utils/data';
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
 import Marquee from 'react-fast-marquee';
+import Banner from './(component)/Banner';
 
-function SampleNextArrow(props: any) {
-  const { className, style, onClick } = props;
-  return <div className={`${className}  w-10 h-10 -right-10 `} style={{ ...style, display: 'block' }} onClick={onClick} />;
-}
-
-function SamplePrevArrow(props: any) {
-  const { className, style, onClick } = props;
-  return <div className={`${className}  w-10 h-10 -left-12 `} style={{ ...style, display: 'block' }} onClick={onClick} />;
-}
 export default function Page() {
-  const dataVideo = [
-    {
-      link: 'https://www.youtube.com/watch?v=nrRxp8jqE4c',
-      urlImage: 'https://www.youtube.com/watch?v=nrRxp8jqE4c',
-    },
-    {
-      link: 'https://www.youtube.com/watch?v=nrRxp8jqE4c',
-      urlImage: 'https://www.youtube.com/watch?v=nrRxp8jqE4c',
-    },
-    {
-      link: 'https://www.youtube.com/watch?v=nrRxp8jqE4c',
-      urlImage: '',
-    },
-    {
-      link: '',
-      urlImage: '',
-    },
-  ];
+  const { videoList } = useGetVideoList();
 
-  const menuBody = [
-    {
-      title: 'Trực tiếp',
-      link: '',
-    },
-    {
-      title: 'Toán',
-      link: '',
-    },
-    {
-      title: 'Văn',
-      link: '',
-    },
-    {
-      title: 'Anh',
-      link: '',
-    },
-    {
-      title: 'Lý',
-      link: '',
-    },
-  ];
-  // const [tabClick, setTabClick] = useState(0);
-
-  const [display, setDisplay] = useState(true);
-  const [width, setWidth] = useState(600);
-
-  const settings = {
-    className: '!w-auto m-auto text-center px-3',
-    dots: false,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 6,
-    autoplay: true,
-    autoplaySpeed: 2000,
-    slidesToScroll: 1,
-    nextArrow: <SampleNextArrow />,
-    prevArrow: <SamplePrevArrow />,
-  };
-
+  console.log(videoList, ':::');
   return (
     <div className="bg-[#f0f1f6]">
       <div
@@ -144,106 +80,40 @@ export default function Page() {
             <img src="//sta.vnres.co/web/assets/soco/img/hot-zb.png" alt="热门主播" />
           </div>
           {/* banner */}
-          <div className="slider-container w-[90%] m-auto">
-            <Slider {...settings}>
-              <div className="!rounded-full !w-40 !h-4w-40 overflow-hidden ">
-                <img
-                  className="object-cover w-full h-full"
-                  src="https://sta.vnres.co/file/pic/202201/04/0b8fba6a9be73ec9edad44bc4c9b0166"
-                />
-              </div>
-              <div className="!rounded-full !w-40 !h-4w-40 overflow-hidden ">
-                <img
-                  className="object-cover w-full h-full"
-                  src="https://sta.vnres.co/file/pic/202201/04/0b8fba6a9be73ec9edad44bc4c9b0166"
-                />
-              </div>
-              <div className="!rounded-full !w-40 !h-4w-40 overflow-hidden ">
-                <img
-                  className="object-cover w-full h-full"
-                  src="https://sta.vnres.co/file/pic/202201/04/0b8fba6a9be73ec9edad44bc4c9b0166"
-                />
-              </div>
-              <div className="!rounded-full !w-40 !h-4w-40 overflow-hidden ">
-                <img
-                  className="object-cover w-full h-full"
-                  src="https://sta.vnres.co/file/pic/202201/04/0b8fba6a9be73ec9edad44bc4c9b0166"
-                />
-              </div>
-              <div className="!rounded-full !w-40 !h-4w-40 overflow-hidden ">
-                <img
-                  className="object-cover w-full h-full"
-                  src="https://sta.vnres.co/file/pic/202201/04/0b8fba6a9be73ec9edad44bc4c9b0166"
-                />
-              </div>
-              <div className="!rounded-full !w-40 !h-4w-40 overflow-hidden ">
-                <img
-                  className="object-cover w-full h-full"
-                  src="https://sta.vnres.co/file/pic/202201/04/0b8fba6a9be73ec9edad44bc4c9b0166"
-                />
-              </div>
-              <div className="!rounded-full !w-40 !h-4w-40 overflow-hidden ">
-                <img
-                  className="object-cover w-full h-full"
-                  src="https://sta.vnres.co/file/pic/202201/04/0b8fba6a9be73ec9edad44bc4c9b0166"
-                />
-              </div>
-              <div className="!rounded-full !w-40 !h-4w-40 overflow-hidden ">
-                <img
-                  className="object-cover w-full h-full"
-                  src="https://sta.vnres.co/file/pic/202201/04/0b8fba6a9be73ec9edad44bc4c9b0166"
-                />
-              </div>
-            </Slider>
-          </div>
-
-          {/* <div
-            className="swiper-button-prev anchor-prev swiper-button-disabled"
-            tabIndex={0}
-            role="button"
-            aria-label="Previous slide"
-            aria-disabled="true"
-          >
-            <i className="iconfont ali-houtuismall" />
-          </div>
-          <div className="swiper-button-next anchor-next" tabIndex={0} role="button" aria-label="Next slide" aria-disabled="false">
-            <i className="iconfont ali-qianjinsmall" />
-          </div> */}
+          <Banner />
         </div>
 
         {/*  */}
         <div className="mt-5 grid xl:grid-cols-4 lg:grid-cols-3 grid-cols-2 gap-5">
-          {Array(10)
-            .fill(0)
-            .map((_, i) => {
-              return (
-                <Link key={i} href="" className="relative hover-iconPlay rounded-t-lg">
-                  <div className="mask" />
-                  <div className="w-full overflow-hidden">
-                    <img
-                      className="object-cover  "
-                      src="https://png.pngtree.com/element_our/png_detail/20181108/little-boy-sit-studying-png_232197.jpg"
-                    />
+          {videoList?.map((item, i) => {
+            return (
+              <Link key={i} href={`/${item._id}`} className="relative hover-iconPlay rounded-t-lg">
+                <div className="mask" />
+                <div className="w-full overflow-hidden">
+                  <img
+                    className="object-cover  "
+                    src="https://png.pngtree.com/element_our/png_detail/20181108/little-boy-sit-studying-png_232197.jpg"
+                  />
+                </div>
+                <div className="live-mask" />
+                <i className="btn-open" />
+                <div className="absolute top-2.5 scale-[1] right-0 mr-3">
+                  <div className="h-[18px] bg-[#fa3434]   px-2 py-2 flex gap-1 justify-center items-center">
+                    <img className="h-2.5 w-full" src="./living.gif" />
+                    <span className="text-white">Live</span>
                   </div>
-                  <div className="live-mask" />
-                  <i className="btn-open" />
-                  <div className="absolute top-2.5 scale-[1] right-0 mr-3">
-                    <div className="h-[18px] bg-[#fa3434]   px-2 py-2 flex gap-1 justify-center items-center">
-                      <img className="h-2.5 w-full" src="./living.gif" />
-                      <span className="text-white">Live</span>
-                    </div>
-                  </div>
-                  <div className="absolute bottom-10 z-10 font-normal w-full text-white tracking-wide bg-custom-gradient flex justify-between px-2 items-center pb-2">
-                    <span className="">BLV DUSTIN</span>
-                    <p className="flex">
-                      <img className="w-4 mr-0.5 object-cover" src="./icon-hot-white.webp" />
-                      <span className="">26.94k</span>
-                    </p>
-                  </div>
-                  <h4 className="bg-white h-10 font-normal px-3.5 py-1  rounded-b-lg text-black">NZBL: Nelson Giants vs Otago Nuggets</h4>
-                </Link>
-              );
-            })}
+                </div>
+                <div className="absolute bottom-10 z-10 font-normal w-full text-white tracking-wide bg-custom-gradient flex justify-between px-2 items-center pb-2">
+                  <span className="">BLV DUSTIN</span>
+                  <p className="flex">
+                    <img className="w-4 mr-0.5 object-cover" src="./icon-hot-white.webp" />
+                    <span className="">26.94k</span>
+                  </p>
+                </div>
+                <h4 className="bg-white h-10 font-normal px-3.5 py-1  rounded-b-lg text-black">NZBL: Nelson Giants vs Otago Nuggets</h4>
+              </Link>
+            );
+          })}
         </div>
       </div>
 

@@ -1,7 +1,10 @@
+import { useRouter } from 'next/router';
+
 import Footer from '@/commons/component/Footer/Footer';
 import Header from '@/commons/component/Header/Header';
 import { ClientSocket } from '@/commons/socket/socket';
 import { getAuthLocalData } from '@/hook/token';
+import useGetVideoList from '@/hook/useGetVideoList/useGetVideoList';
 import { useSocket } from '@/hook/useSocket';
 import { IMessageLiveChatRoom } from '@/module/type';
 import { ArrowDownOutlined } from '@ant-design/icons';
@@ -10,13 +13,15 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import Marquee from 'react-fast-marquee';
 import VideoItem from '../../commons/component/VideoItem';
 
-export default function Room() {
+export default function RoomChat() {
+  const router = useRouter();
+  const { roomId } = router.query;
+  const { videoList } = useGetVideoList();
   const socket = useSocket();
   const [getAllChat, setAllChat] = useState<IMessageLiveChatRoom[]>([]);
   const [content, setContent] = useState<string>('');
   const [showNewMessageIcon, setShowNewMessageIcon] = useState(false);
   const user = getAuthLocalData();
-  const roomId = 'd7fac35d-7fc4-4f08-8c54-cea6c82d0a4e';
   const messageEl = useRef<any>(null);
 
   useEffect(() => {
@@ -40,7 +45,6 @@ export default function Room() {
     if (messageEl) {
       messageEl.current.addEventListener('DOMNodeInserted', (event: any) => {
         const { currentTarget: target } = event;
-        console.log(222);
 
         target.scroll({ top: target.scrollHeight, behavior: 'smooth' });
       });
@@ -51,15 +55,13 @@ export default function Room() {
     if (messageEl.current) {
       const { scrollTop, scrollHeight, clientHeight } = messageEl.current;
       console.log(scrollTop, scrollHeight, clientHeight, messageEl.current, ':s');
-      setShowNewMessageIcon(scrollTop <= 4500);
-      console.log(33);
+      setShowNewMessageIcon(scrollTop + clientHeight <= scrollHeight - 100);
     }
   };
 
   const handleNewMessageClick = () => {
     messageEl.current.scrollTop = messageEl.current?.scrollHeight;
     setShowNewMessageIcon(false);
-    console.log(111);
   };
 
   // create chat
@@ -79,7 +81,7 @@ export default function Room() {
 
     socket.emit('sendMessage', { ...dataBody, chatRoom: dataBody.roomchat });
     setContent('');
-  }, [content, socket, user]);
+  }, [content, roomId, socket, user]);
 
   return (
     <div className="bg-[#f0f1f6]">
@@ -227,12 +229,10 @@ export default function Room() {
         <h2 className="my-3 py-2 font-medium text-xl">Đề xuất video</h2>
 
         {/* Video items */}
-        <div className="mt-5 grid grid-cols-4 grid-rows-3 gap-5">
-          {Array(10)
-            .fill(0)
-            .map((_, i) => {
-              return <VideoItem isLive={false} key={i} />;
-            })}
+        <div className="mt-5 grid grid-cols-4 gap-5">
+          {videoList?.map((_, i) => {
+            return <VideoItem isLive={false} key={i} />;
+          })}
         </div>
       </div>
       <Footer />

@@ -1,6 +1,7 @@
 import toast from "react-hot-toast";
-import http from "./instances";
-import { getAuthLocalData } from "./token";
+import http from "../instances";
+import { getAuthLocalData } from "../token";
+
 
 const buildHeader = (includeAuth = true) => {
     let headers: {

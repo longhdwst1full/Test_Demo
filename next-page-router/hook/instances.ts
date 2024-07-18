@@ -4,7 +4,7 @@ class Http {
     instance: AxiosInstance
     constructor() {
         this.instance = axios.create({
-            baseURL: process.env.BACKEND_BASE_URL || "http://localhost:5000/v1",
+            baseURL: process.env.NEXT_PUBLIC_URI_API || "http://localhost:5000/v1",
             timeout: 10000,
             headers: {
                 'Content-Type': 'application/json'

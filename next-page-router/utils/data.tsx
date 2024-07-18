@@ -25,3 +25,44 @@ export const itemMenus: MenuItem[] = [
     getItem('chat', '/chat'),
 
 ];
+
+export const menuBody = [
+  {
+    title: 'Trực tiếp',
+    link: '',
+  },
+  {
+    title: 'Toán',
+    link: '',
+  },
+  {
+    title: 'Văn',
+    link: '',
+  },
+  {
+    title: 'Anh',
+    link: '',
+  },
+  {
+    title: 'Lý',
+    link: '',
+  },
+];
+ export const dataVideo = [
+   {
+     link: 'https://www.youtube.com/watch?v=nrRxp8jqE4c',
+     urlImage: 'https://www.youtube.com/watch?v=nrRxp8jqE4c',
+   },
+   {
+     link: 'https://www.youtube.com/watch?v=nrRxp8jqE4c',
+     urlImage: 'https://www.youtube.com/watch?v=nrRxp8jqE4c',
+   },
+   {
+     link: 'https://www.youtube.com/watch?v=nrRxp8jqE4c',
+     urlImage: '',
+   },
+   {
+     link: '',
+     urlImage: '',
+   },
+ ];
