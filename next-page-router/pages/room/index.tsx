@@ -4,6 +4,7 @@ import { ClientSocket } from '@/commons/socket/socket';
 import { getAuthLocalData } from '@/hook/token';
 import { useSocket } from '@/hook/useSocket';
 import { IMessageLiveChatRoom } from '@/module/type';
+import { ArrowDownOutlined } from '@ant-design/icons';
 import Link from 'next/link';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Marquee from 'react-fast-marquee';
@@ -13,20 +14,10 @@ export default function Room() {
   const socket = useSocket();
   const [getAllChat, setAllChat] = useState<IMessageLiveChatRoom[]>([]);
   const [content, setContent] = useState<string>('');
+  const [showNewMessageIcon, setShowNewMessageIcon] = useState(false);
   const user = getAuthLocalData();
   const roomId = 'd7fac35d-7fc4-4f08-8c54-cea6c82d0a4e';
-  const bottomRef = useRef<any>(null);
-
-  const [isAtBottom, setIsAtBottom] = useState(true);
-  const chatContainerRef = useRef(null);
-  const [showNewMessageIcon, setShowNewMessageIcon] = useState(false);
-
-  const handleScroll = () => {
-    if (chatContainerRef.current) {
-      const { scrollTop, scrollHeight, clientHeight } = chatContainerRef.current;
-      setIsAtBottom(scrollTop + clientHeight >= scrollHeight);
-    }
-  };
+  const messageEl = useRef<any>(null);
 
   useEffect(() => {
     if (socket && user?.userId && roomId) {
@@ -36,28 +27,39 @@ export default function Room() {
 
       socket.emit('joinChat', { room: roomId, userId: user.userId });
       socket.on('receiveMessage', handleReceiveMessage);
+
       return () => {
         socket.emit('leaveRoom', { room: roomId });
         socket.off('receiveMessage', handleReceiveMessage);
         ClientSocket.Disconnect();
       };
     }
-  }, [roomId, socket, user]);
-
-  // useEffect(() => {
-  //   bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
-  // }, [getAllChat]);
+  }, [socket, user?.userId, roomId]);
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
-    if (!isAtBottom) {
-      setShowNewMessageIcon(true);
+    if (messageEl) {
+      messageEl.current.addEventListener('DOMNodeInserted', (event: any) => {
+        const { currentTarget: target } = event;
+        console.log(222);
+
+        target.scroll({ top: target.scrollHeight, behavior: 'smooth' });
+      });
     }
-  }, [getAllChat, isAtBottom]);
+  }, [messageEl]);
+
+  const handleScroll = () => {
+    if (messageEl.current) {
+      const { scrollTop, scrollHeight, clientHeight } = messageEl.current;
+      console.log(scrollTop, scrollHeight, clientHeight, messageEl.current, ':s');
+      setShowNewMessageIcon(scrollTop <= 4500);
+      console.log(33);
+    }
+  };
 
   const handleNewMessageClick = () => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+    messageEl.current.scrollTop = messageEl.current?.scrollHeight;
     setShowNewMessageIcon(false);
+    console.log(111);
   };
 
   // create chat
@@ -66,7 +68,9 @@ export default function Room() {
       console.warn('Socket or user not available');
       return;
     }
-
+    if (content == '') {
+      return;
+    }
     const dataBody = {
       user: user?.userId,
       message: content,
@@ -75,9 +79,6 @@ export default function Room() {
 
     socket.emit('sendMessage', { ...dataBody, chatRoom: dataBody.roomchat });
     setContent('');
-    socket.on('receiveMessage', (data) => {
-      setAllChat(data.payload.data);
-    });
   }, [content, socket, user]);
 
   return (
@@ -181,23 +182,22 @@ export default function Room() {
                 </div>
                 {/*  */}
 
-                <div className="overflow-y-auto flex-1" onScroll={handleScroll} ref={chatContainerRef}>
-                  <div className="overflow-y-auto h-[499px]">
+                <div className="overflow-hidden flex-1 relative">
+                  <div className="overflow-y-auto h-[499px]" onScroll={handleScroll} ref={messageEl}>
                     {getAllChat &&
                       getAllChat.map((item, i) => (
-                        <div key={i} className="px-2 py-1 bg-[#f4f4f4] cursor-pointer">
-                          <div className="break-all px-1 py-1 text-base !leading-3">
+                        <div key={i} className="px-2 py-[1px] bg-[#f4f4f4] cursor-pointer">
+                          <div className="break-all px-1 text-base !leading-5">
                             <span className="font-semibold">{item?.user?.nickname} :</span>
                             <span className="ml-1 font-normal">{item?.message}</span>
                           </div>
                         </div>
                       ))}
-                    <div ref={bottomRef} />
                   </div>
                   {showNewMessageIcon && (
-                    <div className="fixed bottom-4 right-4">
-                      <button onClick={handleNewMessageClick} className="p-2 bg-blue-500 text-white rounded-full shadow-lg">
-                        New Messages
+                    <div className="absolute bottom-2 left-1/2 -translate-x-1/2 mb-4 mr-4">
+                      <button onClick={handleNewMessageClick} className="bg-blue-500 text-lg text-white p-2 rounded-full">
+                        <ArrowDownOutlined />
                       </button>
                     </div>
                   )}
@@ -222,11 +222,11 @@ export default function Room() {
         </div>
       </div>
 
-      {/* body*/}
+      {/* body */}
       <div className="container m-auto">
         <h2 className="my-3 py-2 font-medium text-xl">Đề xuất video</h2>
 
-        {/*  */}
+        {/* Video items */}
         <div className="mt-5 grid grid-cols-4 grid-rows-3 gap-5">
           {Array(10)
             .fill(0)
@@ -236,8 +236,6 @@ export default function Room() {
         </div>
       </div>
       <Footer />
-
-      {/*  */}
     </div>
   );
 }
