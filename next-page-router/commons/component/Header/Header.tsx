@@ -12,7 +12,6 @@ const Header = () => {
   const param = useParams();
   const router = useRouter();
   const { chatId } = router.query;
-  console.log(chatId, '::::');
   const {
     register,
     handleSubmit,

@@ -5,19 +5,19 @@ import toast from 'react-hot-toast';
 import Layout from '@/commons/component/Layout';
 import TitlePage from '@/commons/component/Title/Title';
 import { useSevices } from '@/hook/useServices/useSevices';
-import { ICommentators, IReqCommentators, IResData } from '@/models/type';
-import CommentatorsCreate from './CommentatorsCreate';
+import { IReqCommentators, IResData, IResVideoLive } from '@/models/type';
+import VideoCreate from './VideoCreate';
 
-export default function CommentatorsAdmin() {
+export default function VideoLiveAdmin() {
   const [openDrawer, setOpenDrawer] = useState(false);
-  const [dataEdit, setDataEdit] = useState<ICommentators>();
-  const [dataRoles, setDataRoles] = useState<ICommentators[]>();
+  const [dataEdit, setDataEdit] = useState<IResVideoLive>();
+  const [dataRoles, setDataRoles] = useState<IResVideoLive[]>();
   const { deleteCaller, getCaller, postCaller, putCaller } = useSevices();
   const [form] = Form.useForm();
   const [messageApi] = message.useMessage();
 
   const handleGetData = async () => {
-    const { data } = await getCaller<IResData<ICommentators[]>>('/commentators/getAll');
+    const { data } = await getCaller<IResData<IResVideoLive[]>>('/video-live/getAll');
     if (data.payload) {
       setDataRoles(data.payload.data);
     }
@@ -30,8 +30,8 @@ export default function CommentatorsAdmin() {
   const onFinish = async (values: IReqCommentators) => {
     if (!dataEdit?._id) {
       try {
-        await postCaller('/commentators/createCommentator', { ...values });
-        toast.success('Add Commentator successfully!');
+        await postCaller('/video-live/create', { ...values });
+        toast.success('Add video live successfully!');
       } catch (error: any) {
         messageApi.open({
           type: 'error',
@@ -40,21 +40,15 @@ export default function CommentatorsAdmin() {
       }
     } else {
       try {
-        await putCaller(`/commentators/update`, { ...values, _id: dataEdit._id }, true, false);
+        await putCaller(`/video-live/update`, { ...values, _id: dataEdit._id }, true, false);
       } catch (error: any) {
         messageApi.open({
           type: 'error',
           content: error?.response?.data?.error,
         });
 
-        toast.success('Update Commentator successfully!');
+        toast.success('Update video live successfully!');
       }
-
-      // if (dataEdit.password != values.passWord) {
-      //   await postCaller(`User/update/passWord/${dataEdit._id}`, {
-      //     passWord: values.passWord,
-      //   });
-      // }
     }
     await handleGetData();
     setOpenDrawer(false);
@@ -66,14 +60,19 @@ export default function CommentatorsAdmin() {
     return {
       stt: index + 1,
       key: items._id,
-      name: items.name,
-      phone: items.phone,
-      nickName: items.nickName,
+      title: items.title,
+      liveStartTime: items.liveStartTime,
+      liveEndTime: items.liveEndTime,
+      commentators: items.commentators,
+      viewers: items.viewers,
+      urlVideoLive: items.urlVideoLive,
+      isLive: items.isLive,
+      roomChat: items.roomChat,
     };
   });
   const handleGetUser = (id: string) => {
     const user = dataRoles?.find((item) => item._id == id);
-    user ? setDataEdit(user) : toast.error('Notfound Commentator');
+    user ? setDataEdit(user) : toast.error('Notfound video live');
     setOpenDrawer(true);
   };
 
@@ -84,20 +83,45 @@ export default function CommentatorsAdmin() {
       key: 'stt',
     },
     {
-      title: 'Name',
-      dataIndex: 'name',
-      key: 'name',
+      title: 'Title',
+      dataIndex: 'title',
+      key: 'title',
+    },
+    {
+      title: 'liveStartTime',
+      dataIndex: 'liveStartTime',
+      key: 'liveStartTime',
+    },
+    {
+      title: 'liveEndTime',
+      dataIndex: 'liveEndTime',
+      key: 'liveEndTime',
+    },
+    {
+      title: 'commentators',
+      dataIndex: 'commentators',
+      key: 'commentators',
+    },
+    {
+      title: 'isLive',
+      dataIndex: 'isLive',
+      key: 'isLive',
     },
 
     {
-      title: 'Phone',
-      dataIndex: 'phone',
-      key: 'phone',
+      title: 'viewers',
+      dataIndex: 'viewers',
+      key: 'viewers',
     },
     {
       title: 'NickName',
       dataIndex: 'nickName',
       key: 'nickName',
+    },
+    {
+      title: 'urlVideoLive',
+      dataIndex: 'urlVideoLive',
+      key: 'urlVideoLive',
     },
 
     {
@@ -115,7 +139,7 @@ export default function CommentatorsAdmin() {
               // disabled={data.roleName == 'admin'}
               onClick={async () => {
                 if (window.confirm('Are you sure you want to delete this item?')) {
-                  await deleteCaller(`/commentators/${data.key}`);
+                  await deleteCaller(`/video-live/${data.key}`);
                   await handleGetData();
                 }
               }}
@@ -132,11 +156,11 @@ export default function CommentatorsAdmin() {
   };
   return (
     <Layout>
-      <TitlePage hanldeAdd={handleOpentDrawer} isAdd={true} title="Manage commentators" />
+      <TitlePage hanldeAdd={handleOpentDrawer} isAdd={true} title="Manage video live" />
 
       <Table dataSource={dataSource} columns={columns} />
       <Drawer
-        title={`${!dataEdit ? 'Add' : 'Update'} commentators`}
+        title={`${!dataEdit ? 'Add' : 'Update'} video live`}
         placement="right"
         width={700}
         onClose={() => {
@@ -145,7 +169,7 @@ export default function CommentatorsAdmin() {
         }}
         open={openDrawer}
       >
-        <CommentatorsCreate form={form} dataUser={dataEdit} onFinish={onFinish} />
+        <VideoCreate form={form} dataUser={dataEdit} onFinish={onFinish} />
       </Drawer>
     </Layout>
   );

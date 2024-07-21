@@ -16,8 +16,7 @@ export default function useGetVideoList() {
     try {
       setLoading(true);
 
-      const { data } = await getCaller<IResponse<IResData<IResVideoLive[]>>>('video-live/getAll')
-      console.log(':data:', data.payload);
+      const { data } = await getCaller<IResData<IResVideoLive[]>>('video-live/getAll')
       setLoading(false);
 
       setVideoList(data.payload.data);

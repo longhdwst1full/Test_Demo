@@ -54,7 +54,6 @@ export default function RoomChat() {
   const handleScroll = () => {
     if (messageEl.current) {
       const { scrollTop, scrollHeight, clientHeight } = messageEl.current;
-      console.log(scrollTop, scrollHeight, clientHeight, messageEl.current, ':s');
       setShowNewMessageIcon(scrollTop + clientHeight <= scrollHeight - 100);
     }
   };

@@ -1,49 +1,49 @@
-import { Button, Form, FormInstance, Input } from 'antd'
-import { useEffect } from 'react'
-import { IRole } from '~/types/user.type'
+import { IRole } from '@/models/type';
+import { Button, Form, FormInstance, Input } from 'antd';
+import { useEffect } from 'react';
 
 interface Props {
-  dataEdit?: IRole
-  form: FormInstance<any>
-  onFinish: (values: any) => Promise<void>
+  dataEdit?: IRole;
+  form: FormInstance<any>;
+  onFinish: (values: any) => Promise<void>;
 }
 
 export default function RoleCreate({ dataEdit, onFinish, form }: Props) {
   useEffect(() => {
-    if (dataEdit && dataEdit.id) {
-      form.setFieldValue('Name', dataEdit.name)
+    if (dataEdit && dataEdit._id) {
+      form.setFieldValue('roleName', dataEdit.roleName);
     } else {
-      form.resetFields()
+      form.resetFields();
     }
-  }, [form, dataEdit])
+  }, [form, dataEdit]);
 
   const onFinishFailed = (errorInfo: any) => {
-    console.log('Failed:', errorInfo)
-  }
+    console.log('Failed:', errorInfo);
+  };
 
   return (
     <div>
       <Form
         form={form}
-        name='basic'
+        name="basic"
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 16 }}
         style={{ maxWidth: 600 }}
         initialValues={{ remember: true }}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
-        autoComplete='off'
+        autoComplete="off"
       >
-        <Form.Item label='Tên chức vụ' name='Name' rules={[{ required: true, message: 'Trường này là bắt buộc!' }]}>
+        <Form.Item label="Role Name" name="roleName" rules={[{ required: true, message: 'This is required!' }]}>
           <Input />
         </Form.Item>
 
         <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-          <Button type='primary' htmlType='submit'>
+          <Button type="primary" className="bg-blue-600" htmlType="submit">
             Submit
           </Button>
         </Form.Item>
       </Form>
     </div>
-  )
+  );
 }

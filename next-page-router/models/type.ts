@@ -7,9 +7,13 @@ export interface MenuCustom extends MenuProps {
 }
 
 export interface IResData<T> {
-    message: string
-    status: number;
-    data: T
+    payload: {
+        message: string
+        status: number;
+        data: T
+    };
+
+
 }
 export interface IResVideoLive {
     _id: string;
@@ -17,6 +21,14 @@ export interface IResVideoLive {
     liveStartTime: string;
     liveEndTime: string;
     commentators: IResCommentators[];
+    roomChat: string
+    description: string
+    imageThumbnailUrl: string
+    urlVideoLive: string;
+    createdAt: string
+    viewers: number;
+    isLive: boolean;
+
 }
 export interface IResCommentators {
     _id: string;
@@ -24,4 +36,37 @@ export interface IResCommentators {
     nickName: string;
     __v: number;
 }
- 
+
+
+export interface IRole {
+    _id: string;
+    roleName: string;
+}
+export interface IUsers {
+    _id: string;
+    phone: string;
+    nickname: string;
+    isLogin: string;
+    role: string;
+}
+export interface ICommentators {
+    _id: string;
+    name: string;
+    nickName: string;
+    phone: string
+}
+export interface IReqCommentators {
+    _id?: string;
+    name: string;
+    nickName: string;
+    phone: string
+    passWord: string
+}
+export interface IReqUsers {
+    _id?: string;
+    nickname: string;
+    phone: string
+    passWord: string
+}
+
+

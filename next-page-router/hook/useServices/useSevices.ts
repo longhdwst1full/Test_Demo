@@ -43,29 +43,32 @@ export const useSevices = () => {
             );
             return Promise.resolve(res);
         } catch (err: any) {
-            toast.error(err?.response?.data?.title || err.message)
+            toast.error(err?.response?.data?.error || err.message)
         }
     };
     const putCaller = async <T, R>(
         url: string,
         data: T,
         includeAuth = true,
+        isPatch = true,
     ) => {
         try {
-            const res = await http.put<R>(url,
+            const res = await (isPatch ? http.put : http.patch)<R>(url,
 
                 data,
                 {
                     headers: buildHeader(includeAuth),
                     timeout: 180000,
-                });
+                })
 
             return (res);
         } catch (err: any) {
 
-            toast.error(err?.response?.data?.title)
+            toast.error(err?.response?.data?.error)
+            return Promise.reject(err);
         }
     };
+
     const deleteCaller = async <R>(url: string, includeAuth = true) => {
 
         try {
@@ -76,7 +79,7 @@ export const useSevices = () => {
 
             return Promise.resolve(res);
         } catch (err: any) {
-
+            console.log(err)
             toast.error(err.message)
         }
     };

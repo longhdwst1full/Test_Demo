@@ -40,7 +40,6 @@ export default function Room() {
     if (messageEl) {
       messageEl.current.addEventListener('DOMNodeInserted', (event: any) => {
         const { currentTarget: target } = event;
-        console.log(222);
 
         target.scroll({ top: target.scrollHeight, behavior: 'smooth' });
       });
@@ -50,16 +49,13 @@ export default function Room() {
   const handleScroll = () => {
     if (messageEl.current) {
       const { scrollTop, scrollHeight, clientHeight } = messageEl.current;
-      console.log(scrollTop, scrollHeight, clientHeight, messageEl.current, ':s');
       setShowNewMessageIcon(scrollTop <= 4500);
-      console.log(33);
     }
   };
 
   const handleNewMessageClick = () => {
     messageEl.current.scrollTop = messageEl.current?.scrollHeight;
     setShowNewMessageIcon(false);
-    console.log(111);
   };
 
   // create chat
