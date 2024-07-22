@@ -46,6 +46,31 @@ export const useSevices = () => {
             toast.error(err?.response?.data?.error || err.message)
         }
     };
+
+    const postCallerFormData = async <T, R>(
+        url: string,
+        data: T,
+        includeAuth = true,
+    ) => {
+
+        try {
+            const res = await http.post<R>(
+                url,
+                data,
+                {
+                    headers: {
+                        ...buildHeader(includeAuth),
+                        'Content-Type': 'multipart/form-data'
+                    },
+                    timeout: 180000,
+                },
+            );
+            return Promise.resolve(res);
+        } catch (err: any) {
+            toast.error(err?.response?.data?.error || err.message)
+        }
+    };
+
     const putCaller = async <T, R>(
         url: string,
         data: T,
@@ -99,7 +124,7 @@ export const useSevices = () => {
 
     return {
         getCaller,
-        postCaller,
+        postCaller, postCallerFormData,
         deleteCaller, putCaller
     };
 };

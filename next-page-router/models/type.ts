@@ -1,3 +1,5 @@
+import { Dayjs } from "dayjs";
+
 export interface MenuProps {
     key: string;
     label: string;
@@ -27,6 +29,17 @@ export interface IResVideoLive {
     urlVideoLive: string;
     createdAt: string
     viewers: number;
+    isLive: boolean;
+
+}
+export interface IReqVideoLive {
+    _id?: string;
+    title: string;
+    timeLive: Dayjs[] | string[]
+    commentators: string
+    description: string
+    imageThumbnailUrl: any
+    urlVideoLive: string;
     isLive: boolean;
 
 }

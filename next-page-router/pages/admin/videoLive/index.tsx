@@ -5,14 +5,17 @@ import toast from 'react-hot-toast';
 import Layout from '@/commons/component/Layout';
 import TitlePage from '@/commons/component/Title/Title';
 import { useSevices } from '@/hook/useServices/useSevices';
-import { IReqCommentators, IResData, IResVideoLive } from '@/models/type';
+import { IReqVideoLive, IResData, IResVideoLive } from '@/models/type';
+import dayjs from 'dayjs';
 import VideoCreate from './VideoCreate';
+
+const fomartTime = 'YYYY-MM-DD HH:mm:ss';
 
 export default function VideoLiveAdmin() {
   const [openDrawer, setOpenDrawer] = useState(false);
   const [dataEdit, setDataEdit] = useState<IResVideoLive>();
   const [dataRoles, setDataRoles] = useState<IResVideoLive[]>();
-  const { deleteCaller, getCaller, postCaller, putCaller } = useSevices();
+  const { deleteCaller, getCaller, postCallerFormData, postCaller, putCaller } = useSevices();
   const [form] = Form.useForm();
   const [messageApi] = message.useMessage();
 
@@ -27,10 +30,26 @@ export default function VideoLiveAdmin() {
     handleGetData();
   }, []);
 
-  const onFinish = async (values: IReqCommentators) => {
-    if (!dataEdit?._id) {
+  const onFinish = async (values: IReqVideoLive) => {
+    console.log(values, '::data value');
+    const formData = new FormData();
+    console.log(values.imageThumbnailUrl);
+    let urlImage = '';
+    if (values.imageThumbnailUrl[0]?.originFileObj) {
+      formData.append('file', values.imageThumbnailUrl[0]?.originFileObj);
+      const dataUrl = await postCallerFormData<any, any>('/upload/file', formData);
+      urlImage = dataUrl?.data || '';
+    }
+
+    if (!dataEdit?._id && urlImage) {
       try {
-        await postCaller('/video-live/create', { ...values });
+        await postCaller('/video-live/create', {
+          ...values,
+          timeLive: '',
+          imageThumbnailUrl: urlImage,
+          liveStartTime: dayjs(values.timeLive[0]).format(fomartTime),
+          liveEndTime: dayjs(values.timeLive[1]).format(fomartTime),
+        });
         toast.success('Add video live successfully!');
       } catch (error: any) {
         messageApi.open({
@@ -40,7 +59,19 @@ export default function VideoLiveAdmin() {
       }
     } else {
       try {
-        await putCaller(`/video-live/update`, { ...values, _id: dataEdit._id }, true, false);
+        dataEdit &&
+          (await putCaller(
+            `/video-live/update`,
+            {
+              ...values,
+              imageThumbnailUrl: urlImage ? urlImage : undefined,
+              liveStartTime: dayjs(values.timeLive[0]).format(fomartTime),
+              liveEndTime: dayjs(values.timeLive[1]).format(fomartTime),
+              _id: dataEdit._id,
+            },
+            true,
+            false,
+          ));
       } catch (error: any) {
         messageApi.open({
           type: 'error',
@@ -56,14 +87,14 @@ export default function VideoLiveAdmin() {
     form.resetFields();
   };
 
-  const dataSource = dataRoles?.reverse()?.map((items, index) => {
+  const dataSource = dataRoles?.map((items, index) => {
     return {
       stt: index + 1,
       key: items._id,
       title: items.title,
       liveStartTime: items.liveStartTime,
       liveEndTime: items.liveEndTime,
-      commentators: items.commentators,
+      commentators: items.commentators?.map((item) => item.name),
       viewers: items.viewers,
       urlVideoLive: items.urlVideoLive,
       isLive: items.isLive,
@@ -166,6 +197,7 @@ export default function VideoLiveAdmin() {
         onClose={() => {
           setOpenDrawer(false);
           setDataEdit(undefined);
+          form.resetFields();
         }}
         open={openDrawer}
       >

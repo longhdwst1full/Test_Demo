@@ -1,8 +1,11 @@
 import { useSevices } from '@/hook/useServices/useSevices';
 import { ICommentators, IResData, IResVideoLive } from '@/models/type';
 import { UploadOutlined } from '@ant-design/icons';
-import { Button, Checkbox, DatePicker, DatePickerProps, Form, FormInstance, GetProps, Input, Select, Space, Upload } from 'antd';
+import { Button, Checkbox, DatePicker, DatePickerProps, Form, FormInstance, GetProps, Input, message, Select, Space, Upload } from 'antd';
+import { CheckboxChangeEvent } from 'antd/es/checkbox';
+import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
+import { RcFile, UploadChangeParam, UploadFile } from 'antd/lib/upload/interface';
 
 interface Props {
   dataUser?: IResVideoLive;
@@ -10,7 +13,7 @@ interface Props {
   onFinish: (values: any) => Promise<void>;
 }
 type RangePickerProps = GetProps<typeof DatePicker.RangePicker>;
-
+const fomartTime = 'YYYY-MM-DD HH:mm:ss';
 const VideoCreate = ({ dataUser, onFinish, form }: Props) => {
   const [commentators, setCommentators] = useState<ICommentators[]>();
   const { RangePicker } = DatePicker;
@@ -29,7 +32,11 @@ const VideoCreate = ({ dataUser, onFinish, form }: Props) => {
   useEffect(() => {
     if (dataUser && dataUser._id) {
       form.setFieldsValue(dataUser);
-      form.setFieldValue('commentators', dataUser.commentators);
+      form.setFieldValue(
+        'commentators',
+        dataUser.commentators.map((item) => item._id),
+      );
+      form.setFieldValue('timeLive', [dayjs(dataUser.liveStartTime), dayjs(dataUser.liveEndTime)]);
     } else {
       form.resetFields();
     }
@@ -39,7 +46,31 @@ const VideoCreate = ({ dataUser, onFinish, form }: Props) => {
     console.log('Failed:', errorInfo);
   };
   const onOk = (value: DatePickerProps['value'] | RangePickerProps['value']) => {
-    console.log('onOk: ', value);
+    if (Array.isArray(value)) {
+      form.setFieldsValue({ timeLive: value });
+    }
+  };
+  const handleCheckboxChange = (e: CheckboxChangeEvent) => {
+    form.setFieldsValue({ isLive: e.target.checked });
+  };
+
+  const beforeUpload = (file: any) => {
+    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+    if (!isJpgOrPng) {
+      message.error('You can only upload JPG/PNG file!');
+    }
+    const isLt2M = file.size / 1024 / 1024 < 2;
+    if (!isLt2M) {
+      message.error('Image must smaller than 2MB!');
+    }
+    return isJpgOrPng && isLt2M;
+  };
+
+  const handleUploadChange = (info: UploadChangeParam<UploadFile<any>>) => {
+    let newFileList = [...info.fileList];
+    // Only show the last uploaded file
+    newFileList = newFileList.slice(-1);
+    form.setFieldsValue({ imageThumbnailUrl: newFileList });
   };
   return (
     <div>
@@ -58,39 +89,33 @@ const VideoCreate = ({ dataUser, onFinish, form }: Props) => {
           <Input />
         </Form.Item>
 
-        {/* <Form.Item
-          label="liveStartTime"
-          name="liveStartTime"
-          rules={[{ required: true, message: 'Please input your liveStartTime!' }]}
-        ></Form.Item> */}
-
-        <Form.Item label="liveEndTime" name="liveEndTime" rules={[{ required: true, message: 'Please input your liveEndTime!' }]}>
-          <RangePicker
-            showTime={{ format: 'HH:mm' }}
-            format="YYYY-MM-DD HH:mm"
-            onChange={(value, dateString) => {
-              console.log('Selected Time: ', value);
-              console.log('Formatted Selected Time: ', dateString);
-            }}
-            onOk={onOk}
-          />
+        <Form.Item label="liveEndTime" name="timeLive" rules={[{ required: true, message: 'Please input your liveEndTime!' }]}>
+          <RangePicker showTime={{ format: 'HH:mm:ss' }} format={fomartTime} onOk={onOk} />
         </Form.Item>
 
         <Form.Item label="urlVideoLive" name="urlVideoLive" rules={[{ required: true, message: 'Please input your urlVideoLive!' }]}>
-          {' '}
           <Input />
         </Form.Item>
 
         <Form.Item
           label="imageThumbnailUrl"
           name="imageThumbnailUrl"
+          getValueFromEvent={(e: any) => {
+            if (Array.isArray(e)) {
+              return e;
+            }
+            return e && e.fileList;
+          }}
           rules={[{ required: true, message: 'Please input your imageThumbnailUrl!' }]}
         >
-          <Space direction="vertical" style={{ width: '100%' }} size="large">
-            <Upload action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload" listType="picture" maxCount={1}>
-              <Button icon={<UploadOutlined />}>Upload (Max: 1)</Button>
-            </Upload>
-          </Space>
+          <Upload listType="picture" maxCount={1} beforeUpload={beforeUpload} onChange={handleUploadChange}>
+            <Button icon={<UploadOutlined />}>Upload (Max: 1)</Button>
+          </Upload>
+          {form.getFieldValue('imageThumbnailUrl') ? (
+            <img src={form.getFieldValue('imageThumbnailUrl')[0].thumbUrl} />
+          ) : (
+            dataUser?.imageThumbnailUrl && <img src={`http://localhost:5000/uploads/${dataUser.imageThumbnailUrl}`} />
+          )}
         </Form.Item>
 
         <Form.Item label="commentators" name="commentators" rules={[{ required: true, message: 'Required!' }]}>
@@ -103,8 +128,8 @@ const VideoCreate = ({ dataUser, onFinish, form }: Props) => {
           />
         </Form.Item>
 
-        <Form.Item label="isLive" name="isLive" rules={[{ required: true, message: 'Please input your isLive!' }]}>
-          <Checkbox></Checkbox>
+        <Form.Item label="isLive" name="isLive" valuePropName="checked">
+          <Checkbox defaultChecked={false} onChange={handleCheckboxChange} />
         </Form.Item>
 
         <Form.Item label="description" name="description" rules={[{ required: true, message: 'Please input your description!' }]}>
@@ -112,7 +137,7 @@ const VideoCreate = ({ dataUser, onFinish, form }: Props) => {
         </Form.Item>
 
         <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-          <Button type="primary" htmlType="submit">
+          <Button type="primary" htmlType="submit" className="bg-blue-600">
             Submit
           </Button>
         </Form.Item>

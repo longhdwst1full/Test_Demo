@@ -110,7 +110,7 @@ const UserCreate = ({ dataUser, onFinish, form }: Props) => {
         </Form.Item>
 
         <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-          <Button type="primary" htmlType="submit">
+          <Button type="primary" htmlType="submit" className="bg-blue-600">
             Submit
           </Button>
         </Form.Item>
