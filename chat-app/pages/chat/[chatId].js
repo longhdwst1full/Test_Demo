@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import ChatDetails from "../../components/ChatDetails";
+import ChatWindow from "../../components/ChatWindow";
 
 export default function ChatPage() {
   const router = useRouter();
@@ -10,5 +10,5 @@ export default function ChatPage() {
     return <div>Loading...</div>;
   }
 
-  return <ChatDetails chatId={chatId} userId={userId} />;
+  return <ChatWindow chatId={chatId} userId={userId} />;
 }

@@ -10,6 +10,9 @@ export class Chat {
 
     @Prop({ type: [{ sender: { type: Types.ObjectId, ref: 'User' }, content: String, timestamp: Date }], default: [] })
     messages: { sender: Types.ObjectId; content: string; timestamp: Date }[];
+
+    @Prop({ type: [{ type: Types.ObjectId, ref: 'File' }], default: [] })
+    files: Types.ObjectId[];
 }
 
 export const ChatSchema = SchemaFactory.createForClass(Chat);
