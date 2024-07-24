@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Socket } from 'socket.io-client'; 
+import { Socket } from 'socket.io-client';
 import { initializeSocket, disconnectSocket } from './socketService';
 
 export const useSocket = () => {

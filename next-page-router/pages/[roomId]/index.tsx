@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 
+import CountdownTimer from '@/commons/component/CountdownTimer/CountdownTimer';
 import Footer from '@/commons/component/Footer/Footer';
 import Header from '@/commons/component/Header/Header';
 import { ClientSocket } from '@/commons/socket/socket';
@@ -8,6 +9,7 @@ import useGetVideoList from '@/hook/useGetVideoList/useGetVideoList';
 import { useSocket } from '@/hook/useSocket';
 import { IMessageLiveChatRoom } from '@/module/type';
 import { ArrowDownOutlined } from '@ant-design/icons';
+import dayjs from 'dayjs';
 import Link from 'next/link';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Marquee from 'react-fast-marquee';
@@ -23,14 +25,19 @@ export default function RoomChat() {
   const [showNewMessageIcon, setShowNewMessageIcon] = useState(false);
   const user = getAuthLocalData();
   const messageEl = useRef<any>(null);
+  const targetDate = dayjs().add(1, 'minute'); // Set your target date and time here
+  const [showVideo, setShowVideo] = useState(true);
 
+  const handleEnd = () => {
+    setShowVideo(true);
+  };
   useEffect(() => {
-    if (socket && user?.userId && roomId) {
+    if (socket && roomId) {
       const handleReceiveMessage = (data: { payload: { data: IMessageLiveChatRoom[] } }) => {
         setAllChat(data.payload.data);
       };
 
-      socket.emit('joinChat', { room: roomId, userId: user.userId });
+      socket.emit('joinChat', { room: roomId });
       socket.on('receiveMessage', handleReceiveMessage);
 
       return () => {
@@ -39,7 +46,7 @@ export default function RoomChat() {
         ClientSocket.Disconnect();
       };
     }
-  }, [socket, user?.userId, roomId]);
+  }, [socket, roomId]);
 
   useEffect(() => {
     if (messageEl) {
@@ -97,9 +104,14 @@ export default function RoomChat() {
           </div>
           <div className="grid grid-cols-11 w-full rounded bg-black">
             <div className="col-span-8 relative">
-              <video autoPlay controls className="video-container">
-                <source src="https://getstream.io/downloads/react_example-gaming_livestream.mp4" />
-              </video>
+              {!showVideo ? (
+                <CountdownTimer targetDate={targetDate} onEnd={handleEnd} />
+              ) : (
+                <video autoPlay controls className="video-container">
+                  <source src="https://getstream.io/downloads/react_example-gaming_livestream.mp4" />
+                </video>
+              )}
+
               <div className="w-full bg-white px-6 py-5 absolute bottom-0 rounded-b-md overflow-hidden h-[100px] flex justify-between mb-2">
                 <div className="flex-1">
                   <div>
@@ -211,8 +223,13 @@ export default function RoomChat() {
                       onChange={(e) => setContent(e.target.value)}
                       onKeyDown={(e) => (e.key === 'Enter' ? handleCreateChat() : null)}
                       className="flex-1 p-1.5"
+                      placeholder={user?.userId ? '' : 'Login .....'}
                     />
-                    <button onClick={handleCreateChat} className="bg-[#e5e5e5] py-3 px-6">
+                    <button
+                      disabled={user?.userId ? false : true}
+                      onClick={handleCreateChat}
+                      className={`bg-[#e5e5e5] py-3 px-6 ${user?.userId ? 'cursor-pointer' : 'cursor-not-allowed'}`}
+                    >
                       Gửi
                     </button>
                   </div>

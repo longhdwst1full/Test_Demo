@@ -1,3 +1,4 @@
+import CountdownTimer from '@/commons/component/CountdownTimer/CountdownTimer';
 import Footer from '@/commons/component/Footer/Footer';
 import Header from '@/commons/component/Header/Header';
 import { ClientSocket } from '@/commons/socket/socket';
@@ -5,6 +6,7 @@ import { getAuthLocalData } from '@/hook/token';
 import { useSocket } from '@/hook/useSocket';
 import { IMessageLiveChatRoom } from '@/module/type';
 import { ArrowDownOutlined } from '@ant-design/icons';
+import dayjs from 'dayjs';
 import Link from 'next/link';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Marquee from 'react-fast-marquee';
@@ -76,7 +78,12 @@ export default function Room() {
     socket.emit('sendMessage', { ...dataBody, chatRoom: dataBody.roomchat });
     setContent('');
   }, [content, socket, user]);
+  const targetDate = dayjs().add(0.5, 'minute'); // Set your target date and time here
+  const [showVideo, setShowVideo] = useState(false);
 
+  const handleEnd = () => {
+    setShowVideo(true);
+  };
   return (
     <div className="bg-[#f0f1f6]">
       <div
@@ -92,9 +99,13 @@ export default function Room() {
           </div>
           <div className="grid grid-cols-11 w-full rounded bg-black">
             <div className="col-span-8 relative">
-              <video autoPlay controls className="video-container">
-                <source src="https://getstream.io/downloads/react_example-gaming_livestream.mp4" />
-              </video>
+              {!showVideo ? (
+                <CountdownTimer targetDate={targetDate} onEnd={handleEnd} />
+              ) : (
+                <video autoPlay controls className="video-container">
+                  <source src="https://getstream.io/downloads/react_example-gaming_livestream.mp4" />
+                </video>
+              )}
               <div className="w-full bg-white px-6 py-5 absolute bottom-0 rounded-b-md overflow-hidden h-[100px] flex justify-between mb-2">
                 <div className="flex-1">
                   <div>

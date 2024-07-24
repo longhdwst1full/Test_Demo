@@ -1,6 +1,6 @@
 import { setAuthData } from '@/hook/token';
 import { useSevices } from '@/hook/useServices/useSevices';
-import { Login, LoginSchema, RegiseterSchema } from '@/utils/validate';
+import { LoginSchema, RegiseterSchema } from '@/utils/validate';
 import { yupResolver } from '@hookform/resolvers/yup';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
@@ -14,7 +14,7 @@ const Header = () => {
   const router = useRouter();
   const { chatId } = router.query;
   const [isAuthReq, setIsAuthReq] = useState('login');
-  const [isOpenModal, setIsOpenModal] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [background, setBackground] = useState(false);
   const { postCaller } = useSevices();
   const {
@@ -26,6 +26,18 @@ const Header = () => {
     mode: 'onChange',
     resolver: yupResolver(isAuthReq == 'login' ? LoginSchema : RegiseterSchema),
   });
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
 
   const navHeader = [
     {
@@ -89,7 +101,7 @@ const Header = () => {
 
     reset();
     setIsAuthReq('');
-    setIsOpenModal(false);
+    setIsModalOpen(false);
   });
 
   const handleGetForm = (data: string) => {
@@ -144,7 +156,7 @@ const Header = () => {
                 <Link
                   onClick={() => {
                     setIsAuthReq('login');
-                    setIsOpenModal(true);
+                    showModal();
                   }}
                   href={'#'}
                 >
@@ -154,26 +166,28 @@ const Header = () => {
                 <Link
                   onClick={() => {
                     setIsAuthReq('register');
-                    setIsOpenModal(true);
+                    showModal();
                   }}
                   href={'#'}
                 >
-                  Đăng kí{' '}
+                  Đăng kí
                 </Link>
               </div>
             </div>
           </div>
         </div>
       </div>
-      {isOpenModal && (
-        <LoginModal
-          handleGetForm={handleGetForm}
-          isAuthReq={isAuthReq}
-          register={register}
-          errors={errors}
-          handleSubmitForm={handleSubmitForm}
-        />
-      )}
+
+      <LoginModal
+        isModalOpen={isModalOpen}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        handleGetForm={handleGetForm}
+        isAuthReq={isAuthReq}
+        register={register}
+        errors={errors}
+        handleSubmitForm={handleSubmitForm}
+      />
     </>
   );
 };
