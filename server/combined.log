@@ -1,0 +1,25 @@
+ [2024-08-12T15:15:57.579Z] info: role: user ===/n menu: {"dashboard":{"name":"Dashboard","permissions":["admin","manager","user"],"component":"Dashboard"},"profile":{"name":"Profile","permissions":["admin","manager","user"],"component":"Profile"}} ==== /n decode={"username":"long","role":"user","iat":1723475474,"exp":1723561874}
+[2024-08-12T15:16:17.438Z] info: Menu server running on port 3001
+[2024-08-12T15:16:22.988Z] info: Menu server running on port 3001
+[2024-08-12T15:16:30.484Z] info: Menu server running on port 3001
+[2024-08-12T15:16:34.628Z] info: Menu server running on port 3001
+[2024-08-12T15:16:38.235Z] info: Menu server running on port 3001
+[2024-08-12T15:16:41.332Z] info: Menu server running on port 3001
+[2024-08-12T15:16:42.774Z] info: Menu server running on port 3001
+[2024-08-12T15:16:45.308Z] info: Menu server running on port 3001
+[2024-08-12T15:16:58.687Z] info: Menu server running on port 3001
+[2024-08-12T15:16:59.743Z] info: Menu server running on port 3001
+[2024-08-12T15:17:03.131Z] info: Menu server running on port 3001
+[2024-08-12T15:17:07.906Z] info: Menu server running on port 3001
+[2024-08-12T15:17:12.910Z] info: path: /api/users ==== decode={"username":"long","role":"user","iat":1723475474,"exp":1723561874}
+[2024-08-12T15:17:12.913Z] info: menu: {"dashboard":{"name":"Dashboard","permissions":["admin","manager","user"],"component":"Dashboard"},"profile":{"name":"Profile","permissions":["admin","manager","user"],"component":"Profile"}}
+[2024-08-12T15:17:47.320Z] info: Menu server running on port 3001
+[2024-08-12T15:17:52.403Z] info: Menu server running on port 3001
+[2024-08-12T15:17:58.401Z] info: Menu server running on port 3001
+[2024-08-12T15:17:59.475Z] info: Menu server running on port 3001
+[2024-08-12T15:18:06.227Z] info: path: /api/products ==== decode={"username":"long","role":"user","iat":1723475474,"exp":1723561874}
+[2024-08-12T15:18:06.228Z] error: [object Object]
+[2024-08-12T15:18:27.359Z] info: Menu server running on port 3001
+[2024-08-12T15:18:27.966Z] info: Menu server running on port 3001
+[2024-08-12T15:18:29.270Z] info: path: /api/products ==== decode={"username":"long","role":"user","iat":1723475474,"exp":1723561874}
+[2024-08-12T15:18:29.270Z] error: {"error":"Forbidden"}
