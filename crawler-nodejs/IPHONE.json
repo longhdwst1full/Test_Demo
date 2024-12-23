@@ -1,19 +1,19 @@
 [
   {
-    "product__name": "\n            OPPO Find X8 5G 16GB/512GB\n        ",
+    "product__name": "OPPO Find X8 5G 16GB/512GB",
     "price": "22.990.000₫"
   },
   {
-    "product__name": "\n            OPPO Find X8 Pro 5G 16GB/512GB\n        ",
+    "product__name": "OPPO Find X8 Pro 5G 16GB/512GB",
     "price": "29.990.000₫"
   },
   {
-    "product__name": "\n            HONOR Magic V3 5G 12GB/512GB\n                Mẫu mới\n        ",
+    "product__name": "HONOR Magic V3 5G 12GB/512GB\n                Mẫu mới",
     "price": "39.990.000₫"
   },
   {
-    "img": "https://cdn.tgdd.vn/Products/Images/42/332234/realme-c75-gold-thumb-600x600.jpg",
-    "product__name": "\n            realme C75\n                Mẫu mới\n        ",
+    "img": "https://cdn.tgdd.vn/Products/Images/42/332234/TimerThumb/realme-c75-8gb-128gb-(2).jpg",
+    "product__name": "realme C75\n                Mẫu mới",
     "price": "5.690.000₫"
   },
   {
@@ -29,9 +29,9 @@
     "price": ""
   },
   {
-    "img": "https://cdn.tgdd.vn/Products/Images/42/329149/iphone-16-pro-max-sa-mac-thumb-600x600.jpg",
-    "product__name": "\n            iPhone 16 Pro Max\n        ",
-    "price": "34.590.000₫"
+    "img": "https://cdn.tgdd.vn/Products/Images/42/329149/TimerThumb/iphone-16-pro-max-(2).jpg",
+    "product__name": "iPhone 16 Pro Max",
+    "price": "34.090.000₫"
   },
   {
     "product__name": "",
@@ -46,8 +46,8 @@
     "price": ""
   },
   {
-    "img": "https://cdn.tgdd.vn/Products/Images/42/329143/iphone-16-pro-titan-sa-mac.png",
-    "product__name": "\n            iPhone 16 Pro\n        ",
+    "img": "https://cdn.tgdd.vn/Products/Images/42/329143/TimerThumb/iphone-16-pro-(2).jpg",
+    "product__name": "iPhone 16 Pro",
     "price": "28.590.000₫"
   },
   {
@@ -67,9 +67,9 @@
     "price": ""
   },
   {
-    "img": "https://cdn.tgdd.vn/Products/Images/42/329138/iphone-16-plus-xanh-thumb-600x600.jpg",
-    "product__name": "\n            iPhone 16 Plus\n        ",
-    "price": "25.990.000₫"
+    "img": "https://cdn.tgdd.vn/Products/Images/42/329138/TimerThumb/iphone-16-plus-(2).jpg",
+    "product__name": "iPhone 16 Plus",
+    "price": "25.490.000₫"
   },
   {
     "product__name": "",
@@ -84,9 +84,9 @@
     "price": ""
   },
   {
-    "img": "https://cdn.tgdd.vn/Products/Images/42/329135/iphone-16-blue-600x600.png",
-    "product__name": "\n            iPhone 16\n        ",
-    "price": "22.490.000₫"
+    "img": "https://cdn.tgdd.vn/Products/Images/42/329135/TimerThumb/iphone-16-(2).jpg",
+    "product__name": "iPhone 16",
+    "price": "22.290.000₫"
   },
   {
     "product__name": "",
@@ -101,8 +101,8 @@
     "price": ""
   },
   {
-    "img": "https://cdn.tgdd.vn/Products/Images/42/307174/samsung-galaxy-s24-ultra-grey-thumbnew-600x600.jpg",
-    "product__name": "\n            Samsung Galaxy S24 Ultra 5G\n        ",
+    "img": "https://cdn.tgdd.vn/Products/Images/42/307174/TimerThumb/samsung-galaxy-s24-ultra-5g-(14).jpg",
+    "product__name": "Samsung Galaxy S24 Ultra 5G",
     "price": "29.990.000₫"
   },
   {
@@ -114,9 +114,9 @@
     "price": ""
   },
   {
-    "img": "https://cdn.tgdd.vn/Products/Images/42/331207/samsung-galaxy-a16-green-thumbnew-600x600.jpg",
-    "product__name": "\n            Samsung Galaxy A16\n        ",
-    "price": "5.690.000₫"
+    "img": "https://cdn.tgdd.vn/Products/Images/42/331207/TimerThumb/samsung-galaxy-a16-8gb-128gb-(2).jpg",
+    "product__name": "Samsung Galaxy A16",
+    "price": "5.490.000₫"
   },
   {
     "product__name": "",
@@ -127,8 +127,12 @@
     "price": ""
   },
   {
-    "img": "https://cdn.tgdd.vn/Products/Images/42/331204/samsung-galaxy-a16-5g-gold-thumbnew-600x600.jpg",
-    "product__name": "\n            Samsung Galaxy A16 5G\n        ",
+    "product__name": "",
+    "price": ""
+  },
+  {
+    "img": "https://cdn.tgdd.vn/Products/Images/42/331204/TimerThumb/samsung-galaxy-a16-5g-(2).jpg",
+    "product__name": "Samsung Galaxy A16 5G",
     "price": "6.990.000₫"
   },
   {
@@ -140,8 +144,8 @@
     "price": ""
   },
   {
-    "img": "https://cdn.tgdd.vn/Products/Images/42/329938/xiaomi-14t-grey-thumb-600x600.jpg",
-    "product__name": "\n            Xiaomi 14T 5G\n        ",
+    "img": "https://cdn.tgdd.vn/Products/Images/42/329938/TimerThumb/xiaomi-14t-5g-(2).jpg",
+    "product__name": "Xiaomi 14T 5G",
     "price": "12.990.000₫"
   },
   {
@@ -153,16 +157,16 @@
     "price": ""
   },
   {
-    "product__name": "\n            vivo V40 5G 12GB/256GB\n                Mẫu mới\n        ",
+    "product__name": "vivo V40 5G 12GB/256GB\n                Mẫu mới",
     "price": "12.990.000₫"
   },
   {
-    "product__name": "\n            vivo V40 Lite 8GB/256GB\n        ",
+    "product__name": "vivo V40 Lite 8GB/256GB",
     "price": "8.190.000₫"
   },
   {
-    "img": "https://cdn.tgdd.vn/Products/Images/42/314206/xiaomi-redmi-note-13-green-thumb-600x600.jpg",
-    "product__name": "\n            Xiaomi Redmi Note 13 Pro\n        ",
+    "img": "https://cdn.tgdd.vn/Products/Images/42/314206/TimerThumb/xiaomi-redmi-note-13-pro-(10).jpg",
+    "product__name": "Xiaomi Redmi Note 13 Pro",
     "price": "5.790.000₫"
   },
   {
@@ -174,25 +178,25 @@
     "price": ""
   },
   {
-    "product__name": "\n            OPPO Reno12 5G 12GB/256GB Hồng\n        ",
-    "price": "11.490.000₫"
+    "product__name": "OPPO Reno12 5G 12GB/256GB Hồng",
+    "price": "11.990.000₫"
   },
   {
-    "img": "https://cdn.tgdd.vn/Products/Images/42/327190/oppo-reno12-f-5g-orange-thumb-600x600.jpg",
-    "product__name": "\n            OPPO Reno12 F 5G\n        ",
-    "price": "8.990.000₫"
-  },
-  {
-    "product__name": "",
-    "price": ""
+    "img": "https://cdn.tgdd.vn/Products/Images/42/327190/TimerThumb/oppo-reno12-f-5g-12gb-256gb-(1).jpg",
+    "product__name": "OPPO Reno12 F 5G",
+    "price": "9.190.000₫"
   },
   {
     "product__name": "",
     "price": ""
   },
   {
-    "img": "https://cdn.tgdd.vn/Products/Images/42/325800/redmi-13-blue-thumb-600x600.jpg",
-    "product__name": "\n            Xiaomi Redmi 13\n        ",
+    "product__name": "",
+    "price": ""
+  },
+  {
+    "img": "https://cdn.tgdd.vn/Products/Images/42/325800/TimerThumb/xiaomi-redmi-13-6gb-128gb-(2).jpg",
+    "product__name": "Xiaomi Redmi 13",
     "price": "3.890.000₫"
   },
   {
@@ -204,8 +208,8 @@
     "price": ""
   },
   {
-    "img": "https://cdn.tgdd.vn/Products/Images/42/328449/oppo-a3x-red-thumb-600x600.jpg",
-    "product__name": "\n            OPPO A3x\n        ",
+    "img": "https://cdn.tgdd.vn/Products/Images/42/328449/TimerThumb/oppo-a3x-4gb-64gb-(2).jpg",
+    "product__name": "OPPO A3x",
     "price": "3.290.000₫"
   },
   {
@@ -221,8 +225,8 @@
     "price": ""
   },
   {
-    "img": "https://cdn.tgdd.vn/Products/Images/42/328752/samsung-galaxy-a06-blue-thumb-1-600x600.jpg",
-    "product__name": "\n            Samsung Galaxy A06\n        ",
+    "img": "https://cdn.tgdd.vn/Products/Images/42/328752/TimerThumb/samsung-galaxy-a06-4gb-64gb-(2).jpg",
+    "product__name": "Samsung Galaxy A06",
     "price": "3.090.000₫"
   },
   {

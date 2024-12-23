@@ -2,6 +2,7 @@ import * as cheerio from "cheerio";
 import axios from "axios";
 import fs from "fs";
 import express from "express";
+import cron from "cron";
 
 const getHTML = async (url) => {
   const { data: html } = await axios.get(url);
@@ -31,11 +32,13 @@ const scrapePhone = async () => {
   const data = [];
 
   $("li.item").each((_, el) => {
-    const img = $(el).find("div.item-img img").attr("src");
-    const product__name = $(el).find("h3").text();
-    const price = $(el).find("a").find("strong.price").text().trim();
+    if (el) {
+      const img = $(el).find("div.item-img img").attr("src");
+      const product__name = $(el).find("h3").text().trim();
+      const price = $(el).find("a").find("strong.price").text().trim();
 
-    data.push({ img, product__name, price });
+      data.push({ img, product__name, price });
+    }
   });
 
   return data;
@@ -50,12 +53,28 @@ const saveDataToFile = async (scrapeFunction, fileName) => {
   }
 };
 
-saveDataToFile(scrapeJobs, "data.json");
-saveDataToFile(scrapePhone, "IPHONE.json");
+// saveDataToFile(scrapeJobs, "data.json");
+// saveDataToFile(scrapePhone, "IPHONE.json");
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 
+// cron job
+const job = cron.CronJob.from({
+  cronTime: "30 * * * * *", // Chạy Jobs vào 23h30 hằng đêm
+  onTick: function () {
+    console.log("Cron jub start runing...");
+
+    saveDataToFile(scrapeJobs, "data.json");
+    saveDataToFile(scrapePhone, "IPHONE.json");
+
+    console.log("Cron jub runing stop");
+  },
+  start: true,
+  timeZone: "Asia/Ho_Chi_Minh", // Lưu ý set lại time zone cho đúng
+});
+
+job.start();
 app.get("/jobs", async (req, res) => {
   try {
     const data = await scrapeJobs();
